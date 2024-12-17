@@ -12,6 +12,7 @@ Ich folge derzeit der Tutorial-Reihe:
 - **Autor**: Traversy Media  
 - **Website**: [Traversy Media Laravel Course](https://www.traversymedia.com/)  
 - **Fortschritt**: 11% abgeschlossen
+- **Ordner**: tutorials/holyworkopia/
 
 ---
 
