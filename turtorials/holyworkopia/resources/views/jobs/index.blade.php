@@ -10,12 +10,8 @@
 <body>
     <h1>{{$title}}</h1>
     <ul>
-         @forelse($jobs as $job)
-             @if($loop->last)
-        <li>Last: {{$job}}</li>
-            @else
-                 <li>{{$job}}</li>
-            @endif
+        @forelse($jobs as $job)
+        <li>{{$job}}</li>
              @empty
              <li>No Jobs available</li>
         @endforelse
