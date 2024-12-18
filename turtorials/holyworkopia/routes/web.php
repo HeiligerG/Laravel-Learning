@@ -7,21 +7,17 @@ Route::get('/', function () {
 });
 
 Route::get('/jobs', function () {
-    return 'Available Jobs';
+    $title = 'Available Jobs';
+    $jobs = [
+        'Web Developer',
+        'Database Administrator',
+        'Software Engineer',
+        'System Analyst',
+    ];
+    return view('jobs.index', compact('title', 'jobs'));
 })->name('jobs');
 
-Route::any('submit', function () {
-    return 'Submitted';
-});
+Route::get('/jobs/create', function () {
+    return view('jobs.create');
+})->name('jobs.create');
 
-Route::get('/test', function () {
-    $url = route('jobs');
-    return "<a href='$url'>Click Here</a>";
-});
-
-Route::get('/api/users', function () {
-    return [
-        'name' => 'John Doe',
-        'email' => 'john@doe.com',
-    ];
-});
