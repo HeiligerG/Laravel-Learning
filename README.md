@@ -68,4 +68,4 @@ Ich freue mich auf Feedback zu meinen Lernfortschritten und bin offen für Tipps
 
 **Viel Erfolg und Spaß beim Lernen von Laravel! 🚀**  
 
-![Banner](https://source.unsplash.com/1600x400/?coding,technology,php)
+![Laravel Learning](https://img.shields.io/badge/Laravel-Learning-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
