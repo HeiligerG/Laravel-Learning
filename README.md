@@ -31,7 +31,7 @@ Ich folge derzeit der Tutorial-Reihe:
 - Praktische Anwendung von Datenbankoperationen (Migrations, Seeder, Eloquent ORM)  
 - Erstellung von RESTful APIs  
 - Umgang mit Authentifizierung und Autorisierung  
-- Verwendung von modernen Werkzeugen wie **Laravel Herd**, **Composer**, **Nginx** und **MySQL**  
+- Verwendung von modernen Werkzeugen wie **Laravel Herd**, **Composer**, **Nginx** und **PostgreSQL**  
 - Entwicklung und Deployment einer vollständigen Laravel-Anwendung  
 
 ---
