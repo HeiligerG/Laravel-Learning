@@ -1,5 +1,3 @@
-@extends('layout')
-
-@section('content')
+<x-layout>
     <h1>Welcome to Holyworkopia</h1>
-@endsection
+</x-layout>
