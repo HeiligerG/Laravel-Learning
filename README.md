@@ -11,7 +11,7 @@ Ich folge derzeit der Tutorial-Reihe:
 **"Laravel From Scratch | Build & Deploy a Job Board"**  
 - **Autor**: Traversy Media  
 - **Website**: [Traversy Media Laravel Course](https://www.traversymedia.com/)  
-- **Fortschritt**: 11% abgeschlossen
+- **Fortschritt**: 25% abgeschlossen
 - **Ordner**: tutorials/holyworkopia/
 
 ---
@@ -31,7 +31,9 @@ Ich folge derzeit der Tutorial-Reihe:
 
 ```markdown
 │-- tutorials/               # Code und Projekte aus Tutorials  
-│  
+│   │── tutorial-1/
+│   └── tutorial-tools/      # Alles was es dazu benötigt
+│
 │-- notes/                   # Eigene Notizen zu Laravel-Themen  
 │  
 │-- projects/                # Eigene Erweiterungen und Experimente  
