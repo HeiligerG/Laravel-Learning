@@ -22,7 +22,10 @@ Ich folge derzeit der Tutorial-Reihe:
 - **Website**: [Traversy Media Laravel Course](https://www.traversymedia.com/)  
 - **Fortschritt**: 38% abgeschlossen
 
-![Fortschritt](https://via.placeholder.com/200x20/ff5732/ffffff?text=38%25)
+<svg width="200" height="20">
+  <rect width="200" height="20" style="fill:#e0e0e0; border-radius: 5px;"></rect>
+  <rect width="76" height="20" style="fill:#ff5732; border-radius: 5px;"></rect>
+</svg>
 
 - **Ordner**: tutorials/holyworkopia/
 
