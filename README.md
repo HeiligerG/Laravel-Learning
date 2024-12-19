@@ -20,7 +20,7 @@ Ich folge derzeit der Tutorial-Reihe:
 **"Laravel From Scratch | Build & Deploy a Job Board"**  
 - **Autor**: Traversy Media  
 - **Website**: [Traversy Media Laravel Course](https://www.traversymedia.com/)  
-- **Fortschritt**: 25% abgeschlossen
+- **Fortschritt**: 31% abgeschlossen
 - **Ordner**: tutorials/holyworkopia/
 
 ---
@@ -59,7 +59,7 @@ Ich folge derzeit der Tutorial-Reihe:
 - **Framework**: [Laravel](https://laravel.com/)  
 - **Editor/IDE**: PHPStorm oder VS Code  
 - **Webserver**: [Laravel Herd](https://herd.laravel.com/)  
-- **Datenbank**: MySQL / PostgreSQL  
+- **Datenbank**: PostgreSQL  
 - **Paketmanager**: Composer  
 
 ---
