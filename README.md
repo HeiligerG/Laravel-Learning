@@ -59,7 +59,7 @@ Ich folge derzeit der Tutorial-Reihe:
 - **Framework**: [Laravel](https://laravel.com/)  
 - **Editor/IDE**: PHPStorm oder VS Code  
 - **Webserver**: [Laravel Herd](https://herd.laravel.com/)  
-- **Datenbank**: MySQL / PostgreSQL  
+- **Datenbank**: PostgreSQL  
 - **Paketmanager**: Composer  
 
 ---
