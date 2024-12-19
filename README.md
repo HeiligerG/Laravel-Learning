@@ -21,13 +21,9 @@ Ich folge derzeit der Tutorial-Reihe:
 - **Autor**: Traversy Media  
 - **Website**: [Traversy Media Laravel Course](https://www.traversymedia.com/)  
 - **Fortschritt**: 38% abgeschlossen
-
-<svg width="200" height="20">
-  <rect width="200" height="20" style="fill:#e0e0e0; border-radius: 5px;"></rect>
-  <rect width="76" height="20" style="fill:#ff5732; border-radius: 5px;"></rect>
-</svg>
-
 - **Ordner**: tutorials/holyworkopia/
+
+![Fortschritt](https://img.shields.io/badge/Fortschritt-38%25-orange)
 
 ---
 
