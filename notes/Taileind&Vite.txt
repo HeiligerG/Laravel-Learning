@@ -1,0 +1,35 @@
+Tailwind & Vite:
+
+wir brauchen vite für den hot load: Erklärung --> 
+
+zerst muss man im projekt terminal 
+
+- npm i -D tailwind postcss autoprefixer istalieren 
+
+danach kan man die config file generieren lassen mit:
+
+- npx tailwindcss init -p
+
+danach im tailwind.config 
+
+        './resources/**/*.blade.php',
+        './resources/**/*.js',
+        './resources/**/*.vue',
+
+die recurcen einfügen bei array content
+
+danach im recources/css/app.css
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+einfügen
+
+danach nur noch 
+
+@vite('resources/css/app.css') 
+
+ober dem titel des layouts erinfügen
+
+Um den vite server noch zu starten muss man noch npm run dev in einer Konsole machen die man dan auch offen lässt.
