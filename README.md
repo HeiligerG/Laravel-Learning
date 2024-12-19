@@ -20,7 +20,10 @@ Ich folge derzeit der Tutorial-Reihe:
 **"Laravel From Scratch | Build & Deploy a Job Board"**  
 - **Autor**: Traversy Media  
 - **Website**: [Traversy Media Laravel Course](https://www.traversymedia.com/)  
-- **Fortschritt**: 38% abgeschlossen [IIII__________]
+- **Fortschritt**: 38% abgeschlossen
+
+![Fortschritt](https://via.placeholder.com/200x20/ff5732/ffffff?text=38%25)
+
 - **Ordner**: tutorials/holyworkopia/
 
 ---
