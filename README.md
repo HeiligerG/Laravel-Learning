@@ -22,7 +22,7 @@ Ich folge derzeit der Tutorial-Reihe:
 - **Website**: [Traversy Media Laravel Course](https://www.traversymedia.com/)  
 - **Ordner**: tutorials/holyworkopia/
 
-![Fortschritt](https://img.shields.io/badge/Fortschritt-77%25-FF2D20)
+![Fortschritt](https://img.shields.io/badge/Fortschritt-82%25-FF2D20)
 
 ---
 
