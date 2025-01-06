@@ -10,6 +10,11 @@ use App\Models\Job;
 class ApplicantController extends Controller
 {
     public function store(Request $request, Job $job): RedirectResponse {
+        $existingApplication = Applicant::where('job_id', $job->id)->where('user_id', auth()->id())->exists();
+        if ($existingApplication) {
+            return redirect()->back()->with('error', 'You have already applied for this job.');
+        }
+
         $validatedData = $request->validate([
             'full_name' => 'required|string',
             'contact_phone' => 'string',
@@ -28,5 +33,11 @@ class ApplicantController extends Controller
         $application->save();
 
         return redirect()->back()->with('success', 'Your application has been submitted.');
+    }
+
+    public function destroy($id) : RedirectResponse {
+        $applicant = Applicant::findOrFail($id);
+        $applicant->delete();
+        return redirect()->route('dashboard')->with('success', 'Applicant deleted');
     }
 }
