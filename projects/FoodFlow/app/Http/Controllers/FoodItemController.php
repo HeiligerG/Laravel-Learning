@@ -19,26 +19,23 @@ class FoodItemController extends Controller
 
     public function store(Request $request)
     {
-        // Validierung der Eingabedaten
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'category' => 'required|exists:categories,id',
-            'location' => 'required|exists:locations,id',
+            'category' => 'required|exists:categories,id',  // Geändert von category_id
+            'location' => 'required|exists:locations,id',   // Geändert von location_id
             'expiration_date' => 'required|date',
             'quantity' => 'required|integer|min:1',
         ]);
 
-        // Erstellen eines neuen Lebensmittel-Eintrags
-        FoodItem::create([
+        $foodItem = FoodItem::create([
             'name' => $validated['name'],
-            'category_id' => $validated['category'],
-            'location_id' => $validated['location'],
+            'category_id' => $validated['category'],  // Hier category statt category_id
+            'location_id' => $validated['location'],  // Hier location statt location_id
             'expiration_date' => $validated['expiration_date'],
             'quantity' => $validated['quantity'],
         ]);
 
-        // Erfolgsnachricht und Weiterleitung
-        return redirect()->route('dashboard')->with('success', 'Lebensmittel erfolgreich hinzugefügt.');
+        return redirect()->back()->with('success', 'Lebensmittel wurde erfolgreich hinzugefügt.');
     }
     public function addCategory(Request $request)
     {

@@ -7,13 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class FoodItem extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'name',
-        'category',
-        'location',
+        'category_id',
+        'location_id',
         'expiration_date',
-        'quantity',
+        'quantity'
     ];
+
+    protected $casts = [
+        'expiration_date' => 'date'
+    ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
 }
