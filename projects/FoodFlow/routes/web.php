@@ -20,6 +20,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [FoodItemController::class, 'index'])->name('dashboard');
     Route::post('/food-items', [FoodItemController::class, 'store'])->name('foodItems.store');
     Route::delete('/food-items/{foodItem}', [FoodItemController::class, 'destroy'])->name('foodItems.destroy');
+    Route::post('/categories', [FoodItemController::class, 'addCategory'])->name('categories.add');
+    Route::post('/locations', [FoodItemController::class, 'addLocation'])->name('locations.add');
 });
 
 require __DIR__.'/auth.php';
