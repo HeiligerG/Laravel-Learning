@@ -13,8 +13,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         DB::table('users')->truncate();
+        DB::table('food_items')->truncate();
 
 
         $this->call(TestUserSeeder::class);
+        $this->call(FoodItemsSeeder::class);
     }
 }
