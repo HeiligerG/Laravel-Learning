@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FoodItem extends Model
 {
@@ -19,12 +20,12 @@ class FoodItem extends Model
         'expiration_date' => 'date'
     ];
 
-    public function category()
+    public function category() : BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function location()
+    public function location() : BelongsTo
     {
         return $this->belongsTo(Location::class);
     }

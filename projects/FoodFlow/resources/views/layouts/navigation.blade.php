@@ -17,6 +17,12 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('addGrocery')" :active="request()->routeIs('addGrocery')" class="text-green-800 hover:text-green-900">
+                        {{ __('Hinzufügen') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -88,6 +94,12 @@
                                    :active="request()->routeIs('dashboard')"
                                    class="text-green-800 hover:text-green-900 hover:bg-green-100">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('addGrocery')"
+                                   :active="request()->routeIs('addGrocery')"
+                                   class="text-green-800 hover:text-green-900 hover:bg-green-100">
+                {{ __('Hinzufügen') }}
             </x-responsive-nav-link>
         </div>
 

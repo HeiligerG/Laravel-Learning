@@ -1,39 +1,54 @@
-@props(['categories'])
+@props(['items', 'name', 'label', 'route'])
 
 <div x-data="{
     open: false,
-    categories: @js($categories),
-    newCategory: '',
-    addCategory() {
-        if (!this.newCategory.trim()) {
-            alert('Der Kategoriename darf nicht leer sein.');
+    items: {{$items}},
+    newItem: '',
+    async addItem() {
+        const trimmedItem = this.newItem.trim();
+
+        if (!trimmedItem) {
+            alert('Der {{$label}} darf nicht leer sein.');
             return;
         }
 
-        axios.post('/categories', { name: this.newCategory })
-            .then(response => {
-                this.categories.push(response.data);
-                this.newCategory = '';
-                this.open = false;
-            })
-            .catch(error => {
-                console.error('Fehler beim Hinzufügen der Kategorie:', error);
-                alert('Es ist ein Fehler aufgetreten.');
+        try {
+            const response = await axios.post(route('{{$route}}'), {
+                item: trimmedItem
             });
+
+            if (response && response.data) {
+                this.items.push(response.data);
+                this.newItem = '';
+                this.open = false;
+            } else {
+                console.error('Leere oder ungültige Antwort vom Server:', response);
+                alert('Es ist ein unerwarteter Fehler aufgetreten.');
+            }
+        } catch (error) {
+            console.error('Fehler beim Hinzufügen von {{$label}}:', error);
+
+            if (error.response && error.response.data && error.response.data.message) {
+                alert(`Fehler: ${error.response.data.message}`);
+            } else {
+                alert('Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.');
+            }
+        }
     }
 }">
+
     <div class="relative">
-        <label for="category" class="block text-sm font-medium text-gray-700">Kategorie</label>
+        <label :for="$name" class="block text-sm font-medium text-gray-700">{{ $label }}</label>
         <div class="mt-1">
             <select
-                name="category"
-                id="category"
+                :name="$name"
+                :id="$name"
                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
             >
                 <option value="">Bitte wählen</option>
-                <template x-for="category in categories" :key="category.id">
-                    <option :value="category.id" x-text="category.name"></option>
+                <template x-for="item in items" :key="item.id">
+                    <option :value="item.id" x-text="item.name"></option>
                 </template>
             </select>
         </div>
@@ -43,13 +58,13 @@
             @click="open = true"
             class="mt-2 text-sm text-blue-600 hover:text-blue-800"
         >
-            + Neue Kategorie
+            + Neue{{ $label == 'Standort' ? 'r' : '' }} {{ $label }}
         </button>
     </div>
 
     <!-- Modal -->
     <div
-        x-show="open"
+        x-show="open = true"
         x-cloak
         class="fixed inset-0 z-50 overflow-y-auto"
         @click.away="open = false"
@@ -59,15 +74,15 @@
 
             <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                 <div>
-                    <h3 class="text-lg font-medium leading-6 text-gray-900">Neue Kategorie hinzufügen</h3>
+                    <h3 class="text-lg font-medium leading-6 text-gray-900">Neue{{ $label == 'Standort' ? 'r' : '' }} {{ $label }} hinzufügen</h3>
 
                     <div class="mt-4">
                         <input
                             type="text"
-                            x-model="newCategory"
-                            @keyup.enter="addCategory"
+                            x-model="newItem"
+                            @keyup.enter="addItem"
                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                            placeholder="Kategoriename eingeben"
+                            :placeholder="'{{$label}}name eingeben'"
                         >
                     </div>
                 </div>
@@ -75,7 +90,7 @@
                 <div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
                     <button
                         type="button"
-                        @click="addCategory"
+                        @click="addItem"
                         class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
                     >
                         Hinzufügen

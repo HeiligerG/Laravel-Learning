@@ -3,13 +3,16 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FoodItemController;
+use App\Http\Controllers\GroceryController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
+Route::get('/pages/dashboard', function () {
+    return view('pages.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -18,10 +21,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/dashboard', [FoodItemController::class, 'index'])->name('dashboard');
+    Route::get('/add-grocery', [GroceryController::class, 'index'])->name('addGrocery');
     Route::post('/food-items', [FoodItemController::class, 'store'])->name('foodItems.store');
     Route::delete('/food-items/{foodItem}', [FoodItemController::class, 'destroy'])->name('foodItems.destroy');
-    Route::post('/categories', [FoodItemController::class, 'addCategory'])->name('categories.add');
-    Route::post('/locations', [FoodItemController::class, 'addLocation'])->name('locations.add');
+    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.add');
+    Route::post('/locations', [LocationController::class, 'store'])->name('locations.add');
 });
 
 require __DIR__.'/auth.php';
