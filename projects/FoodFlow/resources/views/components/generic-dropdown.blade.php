@@ -2,6 +2,7 @@
 
 <div x-data="{
     open: false,
+    modalOpen: false,
     items: {{$items}},
     newItem: '',
     async addItem() {
@@ -20,7 +21,7 @@
             if (response && response.data) {
                 this.items.push(response.data);
                 this.newItem = '';
-                this.open = false;
+                this.modalOpen = false;
             } else {
                 console.error('Leere oder ungültige Antwort vom Server:', response);
                 alert('Es ist ein unerwarteter Fehler aufgetreten.');
@@ -54,27 +55,26 @@
         </div>
 
         <button
-            type="button"
-            @click="open = true"
+            @click="modalOpen = true"
             class="mt-2 text-sm text-blue-600 hover:text-blue-800"
         >
-            + Neue{{ $label == 'Standort' ? 'r' : '' }} {{ $label }}
+            + Neue{{ $label === 'Standort' ? 'r' : '' }} {{ $label }}
         </button>
     </div>
 
     <!-- Modal -->
     <div
-        x-show="open = true"
+        x-show="modalOpen"
         x-cloak
         class="fixed inset-0 z-50 overflow-y-auto"
-        @click.away="open = false"
+        @click.away="modalOpen = false"
     >
         <div class="flex min-h-screen items-center justify-center px-4">
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
             <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                 <div>
-                    <h3 class="text-lg font-medium leading-6 text-gray-900">Neue{{ $label == 'Standort' ? 'r' : '' }} {{ $label }} hinzufügen</h3>
+                    <h3 class="text-lg font-medium leading-6 text-gray-900">Neue{{ $label === 'Standort' ? 'r' : '' }} {{ $label }} hinzufügen</h3>
 
                     <div class="mt-4">
                         <input
@@ -97,7 +97,7 @@
                     </button>
                     <button
                         type="button"
-                        @click="open = false"
+                        @click="modalOpen = false"
                         class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:col-start-1 sm:mt-0 sm:text-sm"
                     >
                         Abbrechen
