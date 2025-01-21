@@ -13,6 +13,10 @@ class GroceryController extends Controller
     {
         $categories = Category::all();
         $locations = Location::all();
-        return view('pages.add-grocery',  compact( 'categories', 'locations'));
+
+        return view('pages.add-grocery', [
+            'categories' => $categories,
+            'locations' => $locations,
+        ]);
     }
 }

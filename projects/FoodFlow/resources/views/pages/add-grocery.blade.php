@@ -26,7 +26,7 @@
                                 </div>
 
                                 <x-generic-dropdown
-                                    :items="$categories"
+                                    items="{{ json_encode($categories) }}"
                                     name="category"
                                     label="Kategorie"
                                     route="{{ route('categories.store') }}"
@@ -40,9 +40,9 @@
                                            required
                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                 </div>
-                                
+
                                 <x-generic-dropdown
-                                    :items="$locations"
+                                    items="{{ json_encode($locations) }}"
                                     name="location"
                                     label="Standort"
                                     route="{{ route('locations.store') }}"
