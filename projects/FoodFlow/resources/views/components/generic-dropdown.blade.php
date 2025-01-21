@@ -2,43 +2,29 @@
 
 <div x-data="{
     open: false,
-    modalOpen: false,
     items: {{$items}},
     newItem: '',
     async addItem() {
-        const trimmedItem = this.newItem.trim();
-
-        if (!trimmedItem) {
-            alert('Der {{$label}} darf nicht leer sein.');
-            return;
-        }
+        if (!this.newItem.trim()) return;
 
         try {
-            const response = await axios.post(route('{{$route}}'), {
-                item: trimmedItem
+            const response = await axios.post('{{ $route }}', {
+                name: this.newItem.trim()
             });
 
-            if (response && response.data) {
-                this.items.push(response.data);
-                this.newItem = '';
-                this.modalOpen = false;
-            } else {
-                console.error('Leere oder ungültige Antwort vom Server:', response);
-                alert('Es ist ein unerwarteter Fehler aufgetreten.');
-            }
-        } catch (error) {
-            console.error('Fehler beim Hinzufügen von {{$label}}:', error);
+            this.items.push(response.data);
+            this.newItem = '';
+            this.open = false;
 
-            if (error.response && error.response.data && error.response.data.message) {
-                alert(`Fehler: ${error.response.data.message}`);
-            } else {
-                alert('Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.');
-            }
+        } catch (error) {
+            const message = error.response?.data?.message || 'Es ist ein Fehler aufgetreten.';
+            alert(message);
         }
     }
 }">
 
-    <div class="relative">
+    <div class="relative" x-data="{ open: false }">
+    <div>
         <label :for="$name" class="block text-sm font-medium text-gray-700">{{ $label }}</label>
         <div class="mt-1">
             <select
@@ -55,7 +41,8 @@
         </div>
 
         <button
-            @click="modalOpen = true"
+            type="button"
+            @click="open = true"
             class="mt-2 text-sm text-blue-600 hover:text-blue-800"
         >
             + Neue{{ $label === 'Standort' ? 'r' : '' }} {{ $label }}
@@ -64,15 +51,14 @@
 
     <!-- Modal -->
     <div
-        x-show="modalOpen"
+        x-show="open"
         x-cloak
         class="fixed inset-0 z-50 overflow-y-auto"
-        @click.away="modalOpen = false"
     >
         <div class="flex min-h-screen items-center justify-center px-4">
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
-            <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+            <div @click.away="open = false" class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                 <div>
                     <h3 class="text-lg font-medium leading-6 text-gray-900">Neue{{ $label === 'Standort' ? 'r' : '' }} {{ $label }} hinzufügen</h3>
 
@@ -97,7 +83,7 @@
                     </button>
                     <button
                         type="button"
-                        @click="modalOpen = false"
+                        @click="open = false"
                         class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:col-start-1 sm:mt-0 sm:text-sm"
                     >
                         Abbrechen
@@ -106,4 +92,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

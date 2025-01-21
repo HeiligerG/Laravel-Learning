@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\View\View;
+use App\Http\Requests\Store\StoreLocationRequest;
+use App\Models\Location;
 
 class LocationController extends Controller
 {
@@ -14,12 +14,7 @@ class LocationController extends Controller
         return response()->json([
             'success' => true,
             'id' => $location->id,
-            'message' => 'Standort hinzugefügt'
+            'message' => '  Standort hinzugefügt'
         ]);
-    }
-
-    public function show() : View
-    {
-        
     }
 }

@@ -24,8 +24,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/add-grocery', [GroceryController::class, 'index'])->name('addGrocery');
     Route::post('/food-items', [FoodItemController::class, 'store'])->name('foodItems.store');
     Route::delete('/food-items/{foodItem}', [FoodItemController::class, 'destroy'])->name('foodItems.destroy');
-    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.add');
-    Route::post('/locations', [LocationController::class, 'store'])->name('locations.add');
+    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+    Route::post('/locations', [LocationController::class, 'store'])->name('locations.store');
 });
 
 require __DIR__.'/auth.php';
