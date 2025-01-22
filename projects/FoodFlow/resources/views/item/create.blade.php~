@@ -35,7 +35,7 @@
 
         <!-- Standort -->
         <x-generic-dropdown
-            :items="$locations"
+            :items="$locations->toJson()"
             name="location"
             label="Standort"
             route="{{ route('locations.store') }}"

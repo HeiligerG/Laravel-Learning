@@ -13,8 +13,9 @@ class LocationController extends Controller
         $location = Location::create($request->validated());
 
         return response()->json([
-            'success' => true,
             'id' => $location->id,
+            'name' => $location->name,
+            'success' => true,
             'message' => '  Standort hinzugefügt'
         ]);
     }

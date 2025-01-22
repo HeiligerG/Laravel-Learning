@@ -18,7 +18,6 @@ class StoreCategoryRequest extends FormRequest
         ];
     }
 
-
     public function messages(): array
     {
         return [
@@ -27,5 +26,4 @@ class StoreCategoryRequest extends FormRequest
             'name.unique' => 'Diese Kategorie existiert bereits.'
         ];
     }
-
 }

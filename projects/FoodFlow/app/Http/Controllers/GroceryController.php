@@ -15,9 +15,6 @@ class GroceryController extends Controller
         $categories = Category::all();
         $locations = Location::all();
 
-        return view('grocery.create', [
-            'categories' => $categories,
-            'locations' => $locations,
-        ]);
+        return view('grocery.create', compact('categories', 'locations'));
     }
 }

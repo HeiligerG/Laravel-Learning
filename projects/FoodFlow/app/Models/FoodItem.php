@@ -21,12 +21,12 @@ class FoodItem extends Model
         'expiration_date' => 'date'
     ];
 
-    public function category() : BelongsTo
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function location() : BelongsTo
+    public function location(): BelongsTo
     {
         return $this->belongsTo(Location::class);
     }

@@ -33,7 +33,7 @@ class FoodItemController extends Controller
             'location_id' => $validated['location'],
             'expiration_date' => $validated['expiration_date'],
             'quantity' => $validated['quantity'],
-        ]);
+        ], 201);
 
         return redirect()->back()->with('success', 'Lebensmittel wurde erfolgreich hinzugefügt.');
     }
