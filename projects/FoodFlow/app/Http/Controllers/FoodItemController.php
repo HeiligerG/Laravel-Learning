@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\FoodItem;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
+use App\Http\Requests\Store\StoreFoodItemRequest;
 use App\Models\Category;
 use App\Models\Location;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\View\View;
 
 class FoodItemController extends Controller
 {
@@ -17,28 +18,37 @@ class FoodItemController extends Controller
         return view('dashboard.index', compact('foodItems'));
     }
 
-    public function store(Request $request)
+    public function store(StoreFoodItemRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'category' => 'required|exists:categories,id',
-            'location' => 'required|exists:locations,id',
-            'expiration_date' => 'required|date',
-            'quantity' => 'required|integer|min:1',
+        // 1. Validierung via Form Request (automatisch)
+        // 2. Neues FoodItem erstellen
+        $foodItem = FoodItem::create($request->validated());
+
+        // 3. Beziehungen laden (falls du sie direkt in der Response brauchst)
+        $foodItem->load(['category', 'location']);
+
+        // 4. JSON-Response zurückgeben
+        return response()->json([
+            'id'              => $foodItem->id,
+            'name'            => $foodItem->name,
+            'category'        => [
+                'id'   => $foodItem->category->id,
+                'name' => $foodItem->category->name,
+            ],
+            'location'        => [
+                'id'   => $foodItem->location->id,
+                'name' => $foodItem->location->name,
+            ],
+            'expiration_date' => $foodItem->expiration_date,
+            'quantity'        => $foodItem->quantity,
+            'created_at'      => $foodItem->created_at,
+            'updated_at'      => $foodItem->updated_at,
+            'success'         => true,
+            'message'         => 'Lebensmittel hinzugefügt'
         ]);
-
-        $foodItem = FoodItem::create([
-            'name' => $validated['name'],
-            'category_id' => $validated['category'],
-            'location_id' => $validated['location'],
-            'expiration_date' => $validated['expiration_date'],
-            'quantity' => $validated['quantity'],
-        ], 201);
-
-        return redirect()->back()->with('success', 'Lebensmittel wurde erfolgreich hinzugefügt.');
     }
 
-    public function destroy(FoodItem $foodItem)
+    public function destroy(FoodItem $foodItem): RedirectResponse
     {
         $foodItem->delete();
         return redirect()->back()->with('success', 'Lebensmittel wurde erfolgreich gelöscht.');

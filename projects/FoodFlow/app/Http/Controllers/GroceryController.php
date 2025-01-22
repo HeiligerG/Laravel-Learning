@@ -7,6 +7,7 @@ use App\Models\Location;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Models\FoodItem;
 
 class GroceryController extends Controller
 {
