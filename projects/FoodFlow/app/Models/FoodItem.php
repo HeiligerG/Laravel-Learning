@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FoodItem extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'name',
         'category_id',

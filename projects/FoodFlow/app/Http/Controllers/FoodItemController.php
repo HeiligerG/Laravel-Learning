@@ -7,15 +7,14 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Location;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\View\View;
 
 class FoodItemController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        $foodItems = FoodItem::orderBy('expiration_date', 'asc')->get();
-        $categories = Category::all();
-        $locations = Location::all();
-        return view('pages.dashboard', compact('foodItems', 'categories', 'locations'));
+        $foodItems = FoodItem::with(['category', 'location'])->orderBy('expiration_date', 'asc')->get();
+        return view('dashboard.index', compact('foodItems'));
     }
 
     public function store(Request $request)
@@ -37,5 +36,11 @@ class FoodItemController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Lebensmittel wurde erfolgreich hinzugefügt.');
+    }
+
+    public function destroy(FoodItem $foodItem)
+    {
+        $foodItem->delete();
+        return redirect()->back()->with('success', 'Lebensmittel wurde erfolgreich gelöscht.');
     }
 }

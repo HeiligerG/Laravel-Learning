@@ -11,7 +11,7 @@ class StoreCategoryRequest extends FormRequest
         return true;
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => ['required', 'string', 'max:255', 'unique:categories']
@@ -19,7 +19,7 @@ class StoreCategoryRequest extends FormRequest
     }
 
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'name.required' => 'Der Kategoriename ist erforderlich.',

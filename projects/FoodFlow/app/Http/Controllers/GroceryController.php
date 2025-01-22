@@ -6,15 +6,16 @@ use App\Models\Category;
 use App\Models\Location;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class GroceryController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $categories = Category::all();
         $locations = Location::all();
 
-        return view('pages.add-grocery', [
+        return view('grocery.create', [
             'categories' => $categories,
             'locations' => $locations,
         ]);
