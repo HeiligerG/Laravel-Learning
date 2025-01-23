@@ -11,28 +11,35 @@ export default {
 
     theme: {
         extend: {
+            // Hier nur die Fonts
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-                colors: {
-                    green: {
-                        900: '#0f3d33',
-                        800: '#145743',
-                        700: '#115e59',
-                        600: '#16a34a',
-                        500: '#22c55e',
-                    },
-                    gray: {
-                        50: '#f9fafb',
-                        200: '#e5e7eb',
-                    },
-                    red: {
-                        500: '#dc2626',
-                        700: '#b91c1c',
-                    },
-                    yellow: {
-                        500: '#facc15',
-                        400: '#fbbf24',
-                    },
+            },
+
+            // Hier gehören die Farben hin
+            colors: {
+                brandIndigo: '#6366F1', // dein Indigo
+                brandDark:   '#0F172A', // dunkle Farbe
+                brandGreen:  '#145314', // grüne Farbe
+
+                green: {
+                    900: '#0f3d33',
+                    800: '#145743',
+                    700: '#115e59',
+                    600: '#16a34a',
+                    500: '#22c55e',
+                },
+                gray: {
+                    50:  '#f9fafb',
+                    200: '#e5e7eb',
+                },
+                red: {
+                    500: '#dc2626',
+                    700: '#b91c1c',
+                },
+                yellow: {
+                    500: '#facc15',
+                    400: '#fbbf24',
                 },
             },
         },

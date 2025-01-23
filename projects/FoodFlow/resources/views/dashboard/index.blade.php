@@ -13,7 +13,7 @@
     </x-slot>
     <div class="py-6 bg-green-900">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-green-800 text-gray-100 overflow-hidden shadow-lg sm:rounded-lg">
+            <div class="bg-mainIndigo text-gray-100 overflow-hidden shadow-lg sm:rounded-lg">
                 @include('item.index', ['foodItems' => $foodItems])
             </div>
         </div>
