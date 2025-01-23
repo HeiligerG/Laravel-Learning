@@ -15,37 +15,32 @@ class FoodItemController extends Controller
     public function index(): View
     {
         $foodItems = FoodItem::with(['category', 'location'])->orderBy('expiration_date', 'asc')->get();
+
+        //
+
         return view('dashboard.index', compact('foodItems'));
     }
 
-    public function store(StoreFoodItemRequest $request): JsonResponse
+    public function store(StoreFoodItemRequest $request): RedirectResponse
     {
-        // 1. Validierung via Form Request (automatisch)
-        // 2. Neues FoodItem erstellen
-        $foodItem = FoodItem::create($request->validated());
+        // Debugging: Zeigen Sie die gesendeten Daten an
 
-        // 3. Beziehungen laden (falls du sie direkt in der Response brauchst)
-        $foodItem->load(['category', 'location']);
+        // Erstellen Sie das FoodItem
+        try {
+            $foodItem = FoodItem::create([
+                'name' => $request->name,
+                'expiration_date' => $request->expiration_date,
+                'quantity' => $request->quantity,
+                'category_id' => $request->category_id,  // Verwenden Sie 'category_id'
+                'location_id' => $request->location_id,  // Verwenden Sie 'location_id'
+            ]);
 
-        // 4. JSON-Response zurückgeben
-        return response()->json([
-            'id'              => $foodItem->id,
-            'name'            => $foodItem->name,
-            'category'        => [
-                'id'   => $foodItem->category->id,
-                'name' => $foodItem->category->name,
-            ],
-            'location'        => [
-                'id'   => $foodItem->location->id,
-                'name' => $foodItem->location->name,
-            ],
-            'expiration_date' => $foodItem->expiration_date,
-            'quantity'        => $foodItem->quantity,
-            'created_at'      => $foodItem->created_at,
-            'updated_at'      => $foodItem->updated_at,
-            'success'         => true,
-            'message'         => 'Lebensmittel hinzugefügt'
-        ]);
+            return redirect()->route('foodItems.index')
+                ->with('success', 'Lebensmittel erfolgreich hinzugefügt.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', $e->getMessage());
+        }
     }
 
     public function destroy(FoodItem $foodItem): RedirectResponse

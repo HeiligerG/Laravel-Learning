@@ -18,8 +18,8 @@ class StoreFoodItemRequest extends FormRequest
     {
         return [
                 'name' => 'required|string|max:255',
-                'category' => 'required|exists:categories,id',
-                'location' => 'required|exists:locations,id',
+                'category_id' => 'required|exists:categories,id',
+                'location_id' => 'required|exists:locations,id',
                 'expiration_date' => 'required|date|after:today',
                 'quantity' => 'required|integer|min:1',
         ];

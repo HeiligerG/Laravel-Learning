@@ -4,7 +4,7 @@
     <!-- Label und Dropdown -->
     <label for="{{ $name }}" class="block text-sm font-medium text-gray-200">{{ $label }}</label>
     <select
-        name="{{ $name }}_id"
+        name="{{ $name }}"
         id="{{ $name }}_id"
         class="block w-full h-14 mt-2 rounded-lg border border-green-700 bg-green-900 text-gray-100 shadow-sm focus:border-green-500 focus:ring-green-500"
         required
