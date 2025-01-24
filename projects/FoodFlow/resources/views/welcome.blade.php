@@ -25,54 +25,57 @@
     @endif
 </head>
 <body class="font-sans antialiased bg-gray-50 text-gray-800">
-<div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-    <div class="w-full max-w-3xl px-6">
-        <header class="py-6 text-center">
-            <h1 class="text-4xl font-bold text-primary">Willkommen bei FoodFlow</h1>
-            <p class="mt-4 text-lg">Verwalte deine Lebensmittel mühelos und reduziere Verschwendung.</p>
+<div class="min-h-screen flex flex-col items-center justify-center bg-brandDark p-6">
+    <div class="w-full max-w-4xl">
+        <header class="text-center mb-12">
+            <h1 class="text-5xl font-bold text-white mb-4">Willkommen bei FoodFlow</h1>
+            <p class="text-xl text-gray-300">Verwalte deine Lebensmittel mühelos und reduziere Verschwendung.</p>
         </header>
 
-        <main class="grid gap-6 lg:grid-cols-2 lg:gap-8">
-            <!-- Dokumentation -->
-            <a href="{{ route('dashboard') }}" class="flex items-start gap-4 rounded-lg bg-white p-6 shadow ring-1 ring-gray-200 transition hover:text-primary hover:ring-primary">
-                <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                    <svg class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <path fill="#28A745" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z"/>
-                    </svg>
-                </div>
-                <div>
-                    <h2 class="text-xl font-semibold">Lebensmittelübersicht</h2>
-                    <p class="mt-2 text-sm">Erhalte eine detaillierte Übersicht über deinen Vorrat und plane smarter.</p>
-                </div>
-            </a>
-
-            <!-- Tutorials -->
-            <a href="#" class="flex items-start gap-4 rounded-lg bg-white p-6 shadow ring-1 ring-gray-200 transition hover:text-primary hover:ring-primary">
-                <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                    <svg class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <path fill="#28A745" d="M3 4h18a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Zm2 2v12h14V6H5Z"/>
-                    </svg>
-                </div>
-                <div>
-                    <h2 class="text-xl font-semibold">Rezepte entdecken</h2>
-                    <p class="mt-2 text-sm">Finde passende Rezepte für deine vorhandenen Lebensmittel.</p>
-                    <p class="text-red-300">(In der Entwicklung)</p>
+        <main class="grid gap-8 md:grid-cols-2">
+            <a href="{{ route('dashboard') }}" class="group bg-darkCard hover:bg-darkCard/80 border border-brandIndigo/20 rounded-xl p-6 transition-all hover:scale-[1.02] hover:shadow-xl">
+                <div class="flex gap-6">
+                    <div class="flex-shrink-0 size-14 bg-brandIndigo/20 rounded-lg flex items-center justify-center">
+                        <svg class="size-7 text-brandIndigo" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-white mb-2 group-hover:text-brandIndigo transition-colors">Lebensmittelübersicht</h2>
+                        <p class="text-gray-400">Erhalte eine detaillierte Übersicht über deinen Vorrat und plane smarter.</p>
+                    </div>
                 </div>
             </a>
 
-            <!-- Nachhaltigkeit -->
-            <a href="#" class="flex items-start gap-4 rounded-lg bg-white p-6 shadow ring-1 ring-gray-200 transition hover:text-primary hover:ring-primary">
-                <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                    <svg class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <path fill="#28A745" d="M11 2v20h2V2h-2Zm-9 9h20v2H2v-2Z"/>
-                    </svg>
+            <div class="bg-darkCard border border-brandIndigo/20 rounded-xl p-6">
+                <div class="flex gap-6">
+                    <div class="flex-shrink-0 size-14 bg-brandIndigo/20 rounded-lg flex items-center justify-center">
+                        <svg class="size-7 text-brandIndigo" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-white mb-2">Rezepte entdecken</h2>
+                        <p class="text-gray-400">Finde passende Rezepte für deine vorhandenen Lebensmittel.</p>
+                        <span class="inline-block mt-2 text-sm text-red-400">(In der Entwicklung)</span>
+                    </div>
                 </div>
-                <div>
-                    <h2 class="text-xl font-semibold">Nachhaltigkeit fördern</h2>
-                    <p class="mt-2 text-sm">Minimiere Lebensmittelabfälle durch intelligente Planung.</p>
-                    <p class="text-red-300">(In der Entwicklung)</p>
+            </div>
+
+            <div class="bg-darkCard border border-brandIndigo/20 rounded-xl p-6 md:col-span-2">
+                <div class="flex gap-6">
+                    <div class="flex-shrink-0 size-14 bg-brandIndigo/20 rounded-lg flex items-center justify-center">
+                        <svg class="size-7 text-brandIndigo" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-white mb-2">Nachhaltigkeit fördern</h2>
+                        <p class="text-gray-400">Minimiere Lebensmittelabfälle durch intelligente Planung.</p>
+                        <span class="inline-block mt-2 text-sm text-red-400">(In der Entwicklung)</span>
+                    </div>
                 </div>
-            </a>
+            </div>
         </main>
 
         <footer class="mt-12 text-center text-sm text-gray-500">

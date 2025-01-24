@@ -11,8 +11,20 @@
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+            <div class="space-y-2">
+                <label for="email" class="block text-sm font-medium text-white">
+                    {{ __('Email') }}
+                </label>
+                <input id="email"
+                       type="email"
+                       name="email"
+                       value="{{ old('email') }}"
+                       class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-gray-400 rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo transition-colors"
+                       required
+                       autofocus
+                       placeholder="name@example.com"
+                >
+            </div>
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
