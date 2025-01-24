@@ -4,7 +4,7 @@
             <!-- Logo -->
             <div class="flex items-center">
                 <a href="{{ route('dashboard') }}" class="flex items-center">
-                    <x-application-logo class="h-10 w-auto"/>
+                    <x-application-logo class="h-14 w-auto"/>
                 </a>
             </div>
 
