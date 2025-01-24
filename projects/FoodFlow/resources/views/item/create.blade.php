@@ -1,14 +1,29 @@
 <form action="{{ route('foodItems.store') }}" method="POST" class="max-w-4xl mx-auto">
     @csrf
     <div class="bg-darkCard rounded-xl shadow-xl border border-brandIndigo/20 p-6 sm:p-8">
+
+        @if (session('status'))
+            <x-alert
+                type="info"
+                :message="session('status')"
+                class="mb-4"
+            />
+        @endif
+
+        @if (session('success'))
+            <x-alert
+                type="success"
+                :message="session('success')"
+                class="mb-4"
+            />
+        @endif
+
         @if ($errors->any())
-            <div class="mb-6 bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg">
-                <ul class="list-disc list-inside">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+            <x-alert
+                type="error"
+                :message="$errors->first()"
+                class="mb-4"
+            />
         @endif
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">

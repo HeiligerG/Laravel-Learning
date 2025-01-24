@@ -2,6 +2,22 @@
     <div class="bg-darkCard border border-brandIndigo/20 rounded-xl shadow-lg shadow-brandIndigo p-8 max-w-md w-full">
         <h2 class="text-2xl font-bold text-white mb-6 text-center">Register</h2>
 
+        @if (session('status'))
+            <x-alert
+                type="info"
+                :message="session('status')"
+                class="mb-4"
+            />
+        @endif
+
+        @if ($errors->any())
+            <x-alert
+                type="error"
+                :message="$errors->first()"
+                class="mb-4"
+            />
+        @endif
+
         <form method="POST" action="{{ route('register') }}" class="space-y-6">
             @csrf
 

@@ -16,20 +16,26 @@ class AuthenticatedSessionController extends Controller
     {
         return view('auth.login');
     }
-
+    
     public function store(LoginRequest $request): RedirectResponse
     {
+        // Authentifizierung des Benutzers
         if (Auth::attempt($request->only('email', 'password'))) {
+            // Bei erfolgreicher Anmeldung
             $request->session()->regenerate();
             return redirect()->intended(route('dashboard', absolute: false))
                 ->with('status', 'Erfolgreich eingeloggt!');
         }
 
+        // Falls die Anmeldung fehlschlägt
         return back()
             ->withErrors(['email' => 'Ungültige Anmeldedaten.'])
             ->withInput();
     }
 
+    /**
+     * Destroy an authenticated session.
+     */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();

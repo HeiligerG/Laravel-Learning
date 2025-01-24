@@ -1,5 +1,4 @@
 <div class="max-w-4xl mx-auto">
-    <!-- Aktuelle Informationen Card -->
     <div class="mb-8 bg-darkCard rounded-xl shadow-xl border border-brandIndigo/20 p-6">
         <h3 class="text-lg font-bold text-white mb-4">Aktuelle Informationen</h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300">
@@ -26,20 +25,33 @@
         </div>
     </div>
 
-    <!-- Bearbeitungsformular -->
+    @if (session('status'))
+        <x-alert
+            type="info"
+            :message="session('status')"
+            class="mb-4"
+        />
+    @endif
+
+    @if (session('success'))
+        <x-alert
+            type="success"
+            :message="session('success')"
+            class="mb-4"
+        />
+    @endif
+
+    @if ($errors->any())
+        <x-alert
+            type="error"
+            :message="$errors->first()"
+            class="mb-4"
+        />
+    @endif
+
     <form action="{{ route('foodItems.update', $foodItem) }}" method="POST" class="bg-darkCard rounded-xl shadow-xl border border-brandIndigo/20 p-6">
         @csrf
         @method('PATCH')
-
-        @if ($errors->any())
-            <div class="mb-6 bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg">
-                <ul class="list-disc list-inside">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div class="space-y-2">

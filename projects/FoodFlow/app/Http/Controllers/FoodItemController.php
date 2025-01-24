@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\FoodItem;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Http\Requests\Store\StoreFoodItemRequest;
@@ -17,7 +16,8 @@ class FoodItemController extends Controller
     {
         $foodItems = FoodItem::with(['category', 'location'])->orderBy('expiration_date', 'asc')->get();
 
-        return view('dashboard.index', compact('foodItems'));
+        return view('dashboard.index', compact('foodItems'))
+            ->with('success', session('success'));
     }
 
     public function store(StoreFoodItemRequest $request): RedirectResponse
@@ -27,15 +27,16 @@ class FoodItemController extends Controller
                 'name' => $request->name,
                 'expiration_date' => $request->expiration_date,
                 'quantity' => $request->quantity,
-                'category_id' => $request->category_id,  // Verwenden Sie 'category_id'
-                'location_id' => $request->location_id,  // Verwenden Sie 'location_id'
+                'category_id' => $request->category_id,
+                'location_id' => $request->location_id,
             ]);
 
-            return redirect()->route('foodItems.index')
+            return redirect()->route('dashboard')
                 ->with('success', 'Lebensmittel erfolgreich hinzugefügt.');
         } catch (\Exception $e) {
             return redirect()->back()
-                ->with('error', $e->getMessage());
+                ->withErrors(['error' => 'Fehler beim Hinzufügen des Lebensmittels: ' . $e->getMessage()])
+                ->withInput();
         }
     }
 
@@ -48,8 +49,14 @@ class FoodItemController extends Controller
 
     public function destroy(FoodItem $foodItem): RedirectResponse
     {
-        $foodItem->delete();
-        return redirect()->route('dashboard')->with('success', 'Lebensmittel wurde erfolgreich gelöscht.');
+        try {
+            $foodItem->delete();
+            return redirect()->route('dashboard')
+                ->with('success', 'Lebensmittel wurde erfolgreich gelöscht.');
+        } catch (\Exception $e) {
+            return redirect()->route('dashboard')
+                ->withErrors(['error' => 'Fehler beim Löschen des Lebensmittels: ' . $e->getMessage()]);
+        }
     }
 
     public function edit(FoodItem $foodItem)
@@ -57,7 +64,8 @@ class FoodItemController extends Controller
         $categories = Category::all();
         $locations = Location::all();
 
-        return view('dashboard.edit', compact('foodItem', 'categories', 'locations'));
+        return view('dashboard.edit', compact('foodItem', 'categories', 'locations'))
+            ->with('success', session('success'));
     }
 
     public function update(Request $request, FoodItem $foodItem)
@@ -70,7 +78,15 @@ class FoodItemController extends Controller
             'quantity' => 'required|integer',
         ]);
 
-        $foodItem->update($validatedData);
-        return redirect()->route('dashboard')->with('success', 'Lebensmittel wurde erfolgreich aktualisiert.');
+        try {
+            $foodItem->update($validatedData);
+            return redirect()->route('dashboard')
+                ->with('success', 'Lebensmittel wurde erfolgreich aktualisiert.');
+        } catch (\Exception $e) {
+            return redirect()->route('dashboard')
+                ->withErrors(['error' => 'Fehler beim Aktualisieren des Lebensmittels: ' . $e->getMessage()])
+                ->withInput();
+        }
     }
 }
+
