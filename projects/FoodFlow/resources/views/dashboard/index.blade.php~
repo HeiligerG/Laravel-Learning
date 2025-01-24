@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-slot name="header">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="relative w-full h-64 overflow-hidden rounded-xl shadow-2xl">
                 <img
@@ -20,6 +21,7 @@
                     </p>
                 </div>
             </div>
+    </x-slot>
     <div class="py-6 bg-brandDark">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-mainIndigo text-gray-100 overflow-hidden shadow-lg sm:rounded-lg">

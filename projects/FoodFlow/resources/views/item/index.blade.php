@@ -5,7 +5,12 @@
                 @php
                     $expirationDate = $item->expiration_date;
                     $isExpired = $expirationDate < now();
-                    $isExpiringSoon = !$isExpired && $expirationDate->diffInDays(now()) <= 7;
+
+                    // Korrekte Berechnung der Tage bis zum Ablauf (nur Zukunft)
+                    $daysUntilExpiration = now()->diffInDays($expirationDate, false); // false = signed value
+
+                    $isExpiringSoon = !$isExpired && $daysUntilExpiration <= 7 && $daysUntilExpiration >= 0;
+
                     $statusColor = $isExpired ? 'bg-red-500' : ($isExpiringSoon ? 'bg-amber-400' : 'bg-emerald-400');
                     $statusText = $isExpired ? 'Abgelaufen' : ($isExpiringSoon ? 'Bald ablaufend' : '');
                     $borderColor = $isExpired ? 'border-red-500/30' : ($isExpiringSoon ? 'border-amber-400/30' : 'border-brandIndigo/30');
