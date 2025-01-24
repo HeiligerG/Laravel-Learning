@@ -19,8 +19,11 @@ export default {
             // Hier gehören die Farben hin
             colors: {
                 brandIndigo: '#6366F1', // dein Indigo
+                brandDarkIndigo: '#4F46E5', // dunkler Indigo
                 brandDark:   '#0F172A', // dunkle Farbe
                 brandGreen:  '#145314', // grüne Farbe
+
+                darkCard: '#1E293B66',
 
                 green: {
                     900: '#0f3d33',

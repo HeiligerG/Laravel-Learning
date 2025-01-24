@@ -7,6 +7,10 @@ use App\Http\Controllers\GroceryController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CategoryController;
 
+Route::resource('food-items', FoodItemController::class)
+    ->except(['index']) // Wenn Index anders implementiert ist
+    ->names('foodItems');
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -26,6 +30,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/food-items/{foodItem}', [FoodItemController::class, 'destroy'])->name('foodItems.destroy');
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
     Route::post('/locations', [LocationController::class, 'store'])->name('locations.store');
+    Route::get('food-items/{foodItem}/edit', [FoodItemController::class, 'edit'])->name('foodItems.edit');
+    Route::patch('/food-items/{foodItem}', [FoodItemController::class, 'update'])->name('foodItems.update');
 });
 
 require __DIR__.'/auth.php';

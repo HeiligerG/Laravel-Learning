@@ -43,7 +43,7 @@ class FoodItemSeeder extends Seeder
             'name' => 'Pasta',
             'category_id' => $categories[array_rand($categories)],
             'location_id' => $locations[array_rand($locations)],
-            'expiration_date' => Carbon::now()->addYear(), // Ablaufdatum in 1 Jahr
+            'expiration_date' => Carbon::now()->addDays(-1),
             'quantity' => 5,
         ]);
 

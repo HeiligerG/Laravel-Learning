@@ -14,18 +14,14 @@
                 <!-- Content -->
                 <div class="relative z-10 flex flex-col items-center justify-center h-full px-6 space-y-4">
                     <h2 class="text-6xl font-extrabold text-white tracking-tight">
-                        Lebensmittelübersicht
+                        Lebensmittel bearbeiten
                     </h2>
-                    <p class="text-2xl text-white/90 text-center font-medium max-w-2xl">
-                        Behalte den Überblick über deine Lebensmittel und deren Verfallsdaten.
-                    </p>
                 </div>
             </div>
     </x-slot>
     <div class="py-6 bg-brandDark">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-mainIndigo text-gray-100 overflow-hidden shadow-lg sm:rounded-lg">
-                @include('item.index', ['foodItems' => $foodItems])
+                @include('item.edit', ['categories' => $categories, 'locations' => $locations, 'foodItem' => $foodItem])
             </div>
         </div>
     </div>

@@ -1,46 +1,81 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
-    @forelse ($foodItems as $item)
-        @php
-            $expirationDate = $item->expiration_date;
-            $isExpired = $expirationDate < now();
-            $isExpiringSoon = !$isExpired && $expirationDate->diffInDays(now()) <= 7;
-        @endphp
+<div class="min-h-screen bg-brandDark">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            @forelse ($foodItems as $item)
+                @php
+                    $expirationDate = $item->expiration_date;
+                    $isExpired = $expirationDate < now();
+                    $isExpiringSoon = !$isExpired && $expirationDate->diffInDays(now()) <= 7;
+                    $statusColor = $isExpired ? 'bg-red-500' : ($isExpiringSoon ? 'bg-amber-400' : 'bg-emerald-400');
+                    $statusText = $isExpired ? 'Abgelaufen' : ($isExpiringSoon ? 'Bald ablaufend' : '');
+                    $borderColor = $isExpired ? 'border-red-500/30' : ($isExpiringSoon ? 'border-amber-400/30' : 'border-brandIndigo/30');
+                @endphp
 
-        <div class="bg-green-800 text-gray-100 rounded-lg shadow-lg p-4 border {{ $isExpired ? 'border-red-500' : ($isExpiringSoon ? 'border-yellow-500' : 'border-green-700') }}">
-            <div class="flex justify-between items-center">
-                <h3 class="text-lg font-semibold">{{ $item->name }}</h3>
-                @if ($isExpired)
-                    <span class="text-red-500 text-sm font-bold">Abgelaufen</span>
-                @elseif ($isExpiringSoon)
-                    <span class="text-yellow-400 text-sm font-bold">Bald ablaufend</span>
-                @endif
-            </div>
-            <p class="mt-2 text-sm">
-                <strong>Kategorie:</strong> {{ $item->category->name }}
-            </p>
-            <p class="text-sm">
-                <strong>Standort:</strong> {{ $item->location->name }}
-            </p>
-            <p class="text-sm">
-                <strong>Verfallsdatum:</strong> {{ $expirationDate->format('d.m.Y') }}
-            </p>
-            <p class="text-sm">
-                <strong>Menge:</strong> {{ $item->quantity }}
-            </p>
+                <a href="{{ route('foodItems.show', $item) }}" class="block">
 
-            <div class="mt-4 flex justify-end">
-                <form action="{{ route('foodItems.destroy', $item) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700 transition">
-                        Löschen
-                    </button>
-                </form>
-            </div>
+                <div class="bg-darkCard rounded-xl shadow-xl border {{ $borderColor }} hover:border-brandIndigo transition-all duration-300 group">
+
+                <div class="p-5">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-white group-hover:text-brandIndigo transition-colors">{{ $item->name }}</h3>
+                            @if($statusText)
+                                <span class="px-3 py-1 rounded-full text-xs font-semibold {{ $statusColor }} text-brandDark shadow-lg">
+                                    {{ $statusText }}
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="space-y-3 text-gray-300">
+                            <div class="flex items-center gap-2">
+                                <span class="text-brandIndigo">•</span>
+                                <span class="text-sm">{{ $item->category->name }}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-brandIndigo">•</span>
+                                <span class="text-sm">{{ $item->location->name }}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-brandIndigo">•</span>
+                                <span class="text-sm">{{ $expirationDate->format('d.m.Y') }}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-brandIndigo">•</span>
+                                <span class="text-sm">{{ $item->quantity }}</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 flex justify-center">
+                            <form action="{{ route('foodItems.destroy', $item) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                        class="w-full  text-red-500 hover:text-white py-2.5 px-4 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                    Löschen
+                                </button>
+                            </form>
+                            <form action="{{ route('foodItems.edit', $item) }}">
+                                @csrf
+                                @method('UPDATE')
+                                <button type="submit"
+                                        class="w-full  text-white-500 hover:text-white py-2.5 px-4 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                    Editieren
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                </a>
+            @empty
+                <div class="col-span-full text-center py-12">
+                    <p class="text-gray-400 text-lg">Keine Lebensmittel gefunden.</p>
+                </div>
+            @endforelse
         </div>
-    @empty
-        <div class="col-span-full text-center text-gray-300">
-            <p>Keine Lebensmittel gefunden.</p>
-        </div>
-    @endforelse
+    </div>
 </div>

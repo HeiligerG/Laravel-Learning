@@ -1,70 +1,61 @@
 @props(['items', 'name', 'label', 'route'])
 
-<div x-data="dropdownComponent(@js($items), '{{ $route }}')" class="relative">
-    <!-- Label und Dropdown -->
-    <label for="{{ $name }}" class="block text-sm font-medium text-gray-200">{{ $label }}</label>
-    <select
-        name="{{ $name }}"
-        id="{{ $name }}_id"
-        class="block w-full h-14 mt-2 rounded-lg border border-green-700 bg-green-900 text-gray-100 shadow-sm focus:border-green-500 focus:ring-green-500"
-        required
-    >
-        <option value="">Bitte wählen</option>
-        <template x-for="item in items" :key="item.id">
-            <option :value="item.id" x-text="item.name || 'Kein Name gefunden'" ></option>
-        </template>
-    </select>
+<div x-data="dropdownComponent(@js($items), '{{ $route }}')" class="space-y-2">
+    <label for="{{ $name }}" class="block text-sm font-medium text-white">{{ $label }}</label>
+    <div class="relative">
+        <select name="{{ $name }}" id="{{ $name }}_id"
+                class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-gray-400 rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo appearance-none transition-colors"
+                required>
+            <option value="">Bitte wählen</option>
+            <template x-for="item in items" :key="item.id">
+                <option :value="item.id" x-text="item.name"></option>
+            </template>
+        </select>
+        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </div>
+    </div>
 
-    <!-- Neuer Eintrag Button -->
-    <button
-        type="button"
-        @click="openModal = true"
-        class="mt-3 text-sm text-green-400 hover:text-green-500"
-    >
-        + Neue{{ $label === 'Standort' ? 'r' : '' }} {{ $label }}
+    <button type="button" @click="openModal = true"
+            class="text-sm text-brandIndigo hover:text-brandIndigo/80 transition-colors flex items-center gap-1">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+        </svg>
+        Neue{{ $label === 'Standort' ? 'r' : '' }} {{ $label }}
     </button>
 
     <!-- Modal -->
-    <div
-        x-show="openModal"
-        x-cloak
-        class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-75"
-    >
-        <div @click.away="openModal = false" class="bg-white rounded-lg shadow-xl w-96 p-6">
-            <!-- Modal Header -->
-            <h3 class="text-lg font-medium text-gray-900">
-                Neue{{ $label === 'Standort' ? 'r' : '' }} {{ $label }} hinzufügen
-            </h3>
+    <template x-teleport="body">
+        <div x-show="openModal" x-cloak
+             class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+            <div @click.away="openModal = false"
+                 class="bg-darkCard rounded-xl border border-brandIndigo/20 shadow-xl w-96 p-6 transform transition-all"
+                 x-transition:enter="ease-out duration-300"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100">
 
-            <!-- Modal Body -->
-            <div class="mt-4">
-                <input
-                    type="text"
-                    x-model="newItem"
-                    placeholder="{{ $label }} eingeben"
-                    class="block w-full rounded-md border border-gray-300 bg-gray-50 text-gray-800 shadow-sm focus:border-green-500 focus:ring-green-500"
-                >
-            </div>
+                <h3 class="text-lg font-medium text-white mb-4">
+                    Neue{{ $label === 'Standort' ? 'r' : '' }} {{ $label }} hinzufügen
+                </h3>
 
-            <!-- Modal Footer -->
-            <div class="mt-6 flex justify-end space-x-3">
-                <button
-                    type="button"
-                    @click="addItem"
-                    class="bg-green-600 text-white px-4 py-2 rounded-md shadow hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-400"
-                >
-                    Hinzufügen
-                </button>
-                <button
-                    type="button"
-                    @click="openModal = false"
-                    class="bg-gray-200 text-gray-800 px-4 py-2 rounded-md shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400"
-                >
-                    Abbrechen
-                </button>
+                <input type="text" x-model="newItem" placeholder="{{ $label }} eingeben"
+                       class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-gray-400 rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo transition-colors">
+
+                <div class="mt-6 flex justify-end gap-3">
+                    <button type="button" @click="openModal = false"
+                            class="px-4 py-2 text-gray-400 hover:text-white transition-colors">
+                        Abbrechen
+                    </button>
+                    <button type="button" @click="addItem"
+                            class="px-4 py-2 bg-brandIndigo hover:bg-brandIndigo/80 text-white rounded-lg transition-colors">
+                        Hinzufügen
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    </template>
 </div>
 
 <script>
@@ -74,10 +65,15 @@
             openModal: false,
             newItem: '',
             async addItem() {
-                if (!this.newItem.trim()) return alert('Name darf nicht leer sein.');
+                if (!this.newItem.trim()) {
+                    alert('Name darf nicht leer sein.');
+                    return;
+                }
 
                 try {
-                    const response = await axios.post(route, { name: this.newItem.trim() });
+                    const response = await axios.post(route, {
+                        name: this.newItem.trim()
+                    });
                     this.items.push(response.data);
                     this.newItem = '';
                     this.openModal = false;
