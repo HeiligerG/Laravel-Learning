@@ -14,7 +14,7 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-green-900 text-gray-100">
+<body class="font-sans antialiased bg-brandDark text-gray-100">
 <div class="min-h-screen">
     @include('layouts.navigation')
 
@@ -31,4 +31,7 @@
     </main>
 </div>
 </body>
+<footer class="mt-12 text-center text-sm text-gray-500">
+    © 2025 FoodFlow. Alle Rechte vorbehalten.
+</footer>
 </html>
