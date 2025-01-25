@@ -19,42 +19,56 @@
 
     <div class="py-6 bg-brandDark">
         <div class="max-w-md mx-auto sm:px-6 lg:px-8">
-            <div class="mb-8">
+            <div class="mb-8 bg-darkCard rounded-xl shadow-xl border border-brandIndigo/20 p-6">
+                <h3 class="text-xl font-bold text-white mb-4">Community beitreten</h3>
                 <form action="{{ route('community.join') }}" method="POST">
                     @csrf
-                    <div class="mb-4">
-                        <input type="text" name="code"
-                               placeholder="Community-Code"
-                               required
-                               class="w-full p-2 border rounded">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-white mb-2">Community-Code</label>
+                            <input type="text" name="code"
+                                   placeholder="Code eingeben"
+                                   required
+                                   class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-gray-400 rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo transition-colors">
+                        </div>
+                        <button type="submit"
+                                class="w-full px-6 py-3 bg-brandIndigo hover:bg-brandIndigo/80 text-white rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-medium">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                            </svg>
+                            Beitreten
+                        </button>
                     </div>
-                    <button type="submit"
-                            class="bg-blue-500 text-white px-4 py-2 rounded">
-                        Beitreten
-                    </button>
                 </form>
             </div>
 
-            <div class="border-t pt-8">
-                <h3 class="text-xl mb-4">Oder neue Community erstellen</h3>
+            <div class="bg-darkCard rounded-xl shadow-xl border border-brandIndigo/20 p-6">
+                <h3 class="text-xl font-bold text-white mb-4">Neue Community erstellen</h3>
                 <form action="{{ route('community.store') }}" method="POST">
                     @csrf
-                    <div class="mb-4">
-                        <input type="text" name="name"
-                               placeholder="Community-Name"
-                               required
-                               class="w-full p-2 border rounded">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-white mb-2">Community-Name</label>
+                            <input type="text" name="name"
+                                   placeholder="Name eingeben"
+                                   required
+                                   class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-gray-400 rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-white mb-2">Passwort</label>
+                            <input type="password" name="password"
+                                   placeholder="Min. 8 Zeichen"
+                                   required
+                                   class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-gray-400 rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo transition-colors">
+                        </div>
+                        <button type="submit"
+                                class="w-full px-6 py-3 bg-brandIndigo hover:bg-brandIndigo/80 text-white rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-medium">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                            </svg>
+                            Erstellen
+                        </button>
                     </div>
-                    <div class="mb-4">
-                        <input type="password" name="password"
-                               placeholder="Passwort (min. 8 Zeichen)"
-                               required
-                               class="w-full p-2 border rounded">
-                    </div>
-                    <button type="submit"
-                            class="bg-green-500 text-white px-4 py-2 rounded">
-                        Erstellen
-                    </button>
                 </form>
             </div>
         </div>

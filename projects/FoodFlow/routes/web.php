@@ -17,6 +17,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/api/check-admin-password', function(Request $request) {
+    return response()->json([
+        'success' => $request->password === config('app.admin_password')
+    ]);
+});
+
 Route::get('/dashboard/index', function () {
     return view('dashboard.index');
 })->middleware(['auth', 'verified'])->name('index');

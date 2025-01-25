@@ -34,9 +34,9 @@ class FoodItemController extends Controller
         $communityId = $this->getUserCommunityId();
 
         $foodItems = FoodItem::with(['category', 'location', 'community'])
-            ->where('community_id', $communityId) // Filter nach Community
+            ->where('community_id', $communityId)
             ->orderBy('expiration_date', 'asc')
-            ->get();
+            ->paginate(12); // 10 items per page
 
         return view('dashboard.index', compact('foodItems'))
             ->with('success', session('success'));
