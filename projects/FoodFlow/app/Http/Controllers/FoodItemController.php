@@ -34,16 +34,30 @@ class FoodItemController extends Controller
         return $currentCommunityId; // Direkt die ID zurückgeben (Integer)
     }
 
-    public function index(): View
+    public function index(Request $request): View
     {
         $communityId = $this->getUserCommunityId();
 
+        // Kategorien und Standorte für Dropdowns laden
+        $categories = Category::where('community_id', $communityId)->get();
+        $locations = Location::where('community_id', $communityId)->get();
+
+        // FoodItems mit Filtern und Sortierung
         $foodItems = FoodItem::with(['category', 'location', 'community'])
             ->where('community_id', $communityId)
-            ->orderBy('expiration_date', 'asc')
-            ->paginate(12); // 10 items per page
+            ->when($request->search, fn($q) => $q->where('name', 'like', '%'.$request->search.'%'))
+            ->when($request->category, fn($q) => $q->where('category_id', $request->category))
+            ->when($request->location, fn($q) => $q->where('location_id', $request->location))
+            ->orderBy($request->sort ?? 'expiration_date', 'asc')
+            ->paginate(12)
+            ->withQueryString();
 
-        return view('dashboard.index', compact('foodItems'))
+        // AJAX-Response
+        if ($request->ajax()) {
+            return view('item.partials.items', compact('foodItems'));
+        }
+
+        return view('dashboard.index', compact('foodItems', 'categories', 'locations'))
             ->with('success', session('success'));
     }
 
