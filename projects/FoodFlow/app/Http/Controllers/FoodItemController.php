@@ -9,13 +9,32 @@ use Illuminate\View\View;
 use App\Http\Requests\Store\StoreFoodItemRequest;
 use App\Models\Category;
 use App\Models\Location;
+use App\Models\Community;
+use App\Http\Requests\Update\UpdateFoodItemRequest;
 
 class FoodItemController extends Controller
 {
+
+    private function getUserCommunityId()
+    {
+        // Holen Sie die Community des Benutzers (über die Many-to-Many-Beziehung)
+        $community = auth()->user()->communities()->first();
+
+        // Fehler, wenn keine Community zugewiesen ist
+        if (!$community) {
+            abort(403, 'Benutzer ist keiner Community zugewiesen!');
+        }
+
+        // Geben Sie die ID der Community zurück (als Integer)
+        return $community->id;
+    }
+
     public function index(): View
     {
-        $foodItems = FoodItem::with(['category', 'location'])
-            ->where('community_id', auth()->user()->community_id)
+        $communityId = $this->getUserCommunityId();
+
+        $foodItems = FoodItem::with(['category', 'location', 'community'])
+            ->where('community_id', $communityId) // Filter nach Community
             ->orderBy('expiration_date', 'asc')
             ->get();
 
@@ -27,22 +46,26 @@ class FoodItemController extends Controller
     {
         try {
             $data = $request->validated();
-            $data['community_id'] = auth()->user()->community_id;
 
-            $foodItem = FoodItem::create($data);
+            // Community-ID holen
+            $data['community_id'] = $this->getUserCommunityId();
+
+            // FoodItem erstellen
+            FoodItem::create($data);
 
             return redirect()->route('dashboard')
                 ->with('success', 'Lebensmittel erfolgreich hinzugefügt.');
+
         } catch (\Exception $e) {
             return redirect()->back()
-                ->withErrors(['error' => 'Fehler beim Hinzufügen: ' . $e->getMessage()])
+                ->withErrors(['error' => 'Fehler: ' . $e->getMessage()])
                 ->withInput();
         }
     }
 
     public function show(FoodItem $foodItem)
     {
-        if ($foodItem->community_id !== auth()->user()->community_id) {
+        if ($foodItem->community_id !== $this->getUserCommunityId()) {
             abort(403);
         }
 
@@ -53,7 +76,7 @@ class FoodItemController extends Controller
 
     public function destroy(FoodItem $foodItem): RedirectResponse
     {
-        if ($foodItem->community_id !== auth()->user()->community_id) {
+        if ($foodItem->community_id !== $this->getUserCommunityId()) {
             abort(403);
         }
 
@@ -63,44 +86,40 @@ class FoodItemController extends Controller
                 ->with('success', 'Lebensmittel wurde erfolgreich gelöscht.');
         } catch (\Exception $e) {
             return redirect()->route('dashboard')
-                ->withErrors(['error' => 'Fehler beim Löschen des Lebensmittels: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Fehler beim Löschen: ' . $e->getMessage()]);
         }
     }
 
     public function edit(FoodItem $foodItem)
     {
-        if ($foodItem->community_id !== auth()->user()->community_id) {
+        if ($foodItem->community_id !== $this->getUserCommunityId()) {
             abort(403);
         }
 
-        $categories = Category::all();
-        $locations = Location::all();
+        // Kategorien und Standorte NUR aus der aktuellen Community laden
+        $communityId = $this->getUserCommunityId();
+        $categories = Category::where('community_id', $communityId)->get();
+        $locations = Location::where('community_id', $communityId)->get();
 
-        return view('dashboard.edit', compact('foodItem', 'categories', 'locations'))
-            ->with('success', session('success'));
+        return view('dashboard.edit', compact('foodItem', 'categories', 'locations'));
     }
 
-    public function update(Request $request, FoodItem $foodItem)
+    public function update(UpdateFoodItemRequest $request, FoodItem $foodItem)
     {
-        if ($foodItem->community_id !== auth()->user()->community_id) {
+        if ($foodItem->community_id !== $this->getUserCommunityId()) {
             abort(403);
         }
 
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'category_id' => 'required',
-            'location_id' => 'required',
-            'expiration_date' => 'required|date',
-            'quantity' => 'required|integer',
-        ]);
+        // Validierung in eine separate Request-Klasse auslagern (UpdateFoodItemRequest)
+        $validatedData = $request->validated();
 
         try {
             $foodItem->update($validatedData);
             return redirect()->route('dashboard')
-                ->with('success', 'Lebensmittel wurde erfolgreich aktualisiert.');
+                ->with('success', 'Lebensmittel erfolgreich aktualisiert.');
         } catch (\Exception $e) {
-            return redirect()->route('dashboard')
-                ->withErrors(['error' => 'Fehler beim Aktualisieren des Lebensmittels: ' . $e->getMessage()])
+            return redirect()->back()
+                ->withErrors(['error' => 'Fehler: ' . $e->getMessage()])
                 ->withInput();
         }
     }

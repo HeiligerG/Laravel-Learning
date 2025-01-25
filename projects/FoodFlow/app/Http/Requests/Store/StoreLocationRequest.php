@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Store;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreLocationRequest extends FormRequest
 {
@@ -14,8 +15,13 @@ class StoreLocationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', 'unique:categories,name,NULL,id,community_id,' . auth()->user()->community_id],
-            'community_id' => ['required', 'exists:communities,id']
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                // Prüfe auf eindeutigen Namen innerhalb der Community
+                Rule::unique('locations')->where('community_id', $this->community_id),
+            ],
         ];
     }
 

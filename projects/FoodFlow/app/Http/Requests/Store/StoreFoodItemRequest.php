@@ -20,7 +20,6 @@ class StoreFoodItemRequest extends FormRequest
                 'location_id' => 'required|exists:locations,id',
                 'expiration_date' => 'required|date|after:today',
                 'quantity' => 'required|integer|min:1',
-                'community_id' => 'required|exists:communities,id'
         ];
     }
 }

@@ -13,19 +13,19 @@ class TestUserSeeder extends Seeder
 {
     public function run(): void
     {
+        // Create test community
+        $community = Community::create([
+            'name' => 'Test Community',
+            'code' => 'TEST123',
+            'password' => Hash::make('password123')
+        ]);
+
         // Create test user
         $user = User::create([
             'name' => 'Test User',
             'email' => 'test@test.com',
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make('12345678'),
-        ]);
-
-        // Create test community
-        $community = Community::create([
-            'name' => 'Test Community',
-            'code' => 'TEST123',
-            'password' => Hash::make('password123')
         ]);
 
         // Attach user to community

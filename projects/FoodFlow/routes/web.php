@@ -7,6 +7,7 @@ use App\Http\Controllers\GroceryController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommunityController;
+use App\Http\Middleware\NoCommunityMiddleware;
 
 Route::resource('food-items', FoodItemController::class)
     ->except(['index'])
@@ -20,11 +21,23 @@ Route::get('/dashboard/index', function () {
     return view('dashboard.index');
 })->middleware(['auth', 'verified'])->name('index');
 
-Route::middleware(['auth', 'no-community'])->group(function () {
-    Route::get('/join-community', [CommunityController::class, 'joinForm']);
-    Route::post('/join-community', [CommunityController::class, 'join']);
-    Route::get('/create-community', [CommunityController::class, 'createForm']);
-    Route::post('/create-community', [CommunityController::class, 'store']);
+// Sicherstellen, dass die Middleware-Klasse importiert wird
+Route::middleware(['auth', NoCommunityMiddleware::class])->group(function () {
+    // Community-Beitrittsformular
+    Route::get('/join-community', [CommunityController::class, 'joinForm'])
+        ->name('community.join-form'); // ✅ Korrekter Name
+
+    // Community-Beitritt verarbeiten
+    Route::post('/join-community', [CommunityController::class, 'join'])
+        ->name('community.join'); // ✅ Korrekter Name
+
+    // Community-Erstellungsformular
+    Route::get('/create-community', [CommunityController::class, 'createForm'])
+        ->name('community.create-form'); // ✅ Korrekter Name
+
+    // Community-Erstellung verarbeiten
+    Route::post('/create-community', [CommunityController::class, 'store'])
+        ->name('community.store'); // ✅ Korrekter Name
 });
 
 Route::middleware('auth')->group(function () {

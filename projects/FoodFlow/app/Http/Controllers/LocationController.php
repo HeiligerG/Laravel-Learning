@@ -10,8 +10,13 @@ class LocationController extends Controller
 {
     public function store(StoreLocationRequest $request): JsonResponse
     {
+        $community = auth()->user()->communities()->first();
+        if (!$community) {
+            return response()->json(['error' => 'Benutzer ist keiner Community zugewiesen!'], 403);
+        }
+
         $data = $request->validated();
-        $data['community_id'] = auth()->user()->community_id;
+        $data['community_id'] = $community->id;
 
         $location = Location::create($data);
 
