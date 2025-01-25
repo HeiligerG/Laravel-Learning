@@ -68,17 +68,15 @@ class CommunityController extends Controller
 
         $user = auth()->user();
 
-        // Benutzer mit der neuen Community verknüpfen (Pivot-Tabelle)
+        // Benutzer mit der neuen Community verknüpfen und aktivieren
         $user->communities()->attach($community->id, ['is_active' => true]);
 
-        // Deaktiviere alle anderen Communities (Pivot-Tabelle)
+        // Deaktiviere alle anderen Communities
         $user->communities()
             ->where('community_id', '!=', $community->id)
-            ->each(function ($community) use ($user) {
-                $user->communities()->updateExistingPivot($community->id, ['is_active' => false]);
-            });
+            ->update(['is_active' => false]);
 
-        // Aktuelle Community-ID in der users-Tabelle setzen
+        // Aktuelle Community-ID aktualisieren
         $user->update(['current_community_id' => $community->id]);
 
         return redirect()->route('dashboard')->with('success', 'Community erstellt!');

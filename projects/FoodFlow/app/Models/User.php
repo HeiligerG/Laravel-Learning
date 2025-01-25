@@ -49,11 +49,11 @@ class User extends Authenticatable
         ];
     }
 
-    public function communities(): BelongsToMany
+    public function communities()
     {
         return $this->belongsToMany(Community::class)
-            ->withTimestamps()
-            ->withPivot('is_active');
+            ->withPivot('is_active')
+            ->withTimestamps();
     }
 
     public function currentCommunity() {
