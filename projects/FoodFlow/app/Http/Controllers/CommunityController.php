@@ -29,7 +29,12 @@ class CommunityController extends Controller
         ]);
 
         $community = Community::where('code', $validated['code'])->firstOrFail();
+
+        // User zur Community hinzufügen
         auth()->user()->communities()->attach($community->id);
+
+        // Aktuelle Community aktualisieren
+        auth()->user()->update(['current_community_id' => $community->id]); // <-- HIER
 
         return redirect()->route('dashboard');
     }
@@ -47,7 +52,11 @@ class CommunityController extends Controller
             'password' => Hash::make($validated['password'])
         ]);
 
+        // User zur neuen Community hinzufügen
         auth()->user()->communities()->attach($community->id);
+
+        // Aktuelle Community auf die neu erstellte setzen
+        auth()->user()->update(['current_community_id' => $community->id]); // <-- HIER
 
         return redirect()->route('dashboard');
     }

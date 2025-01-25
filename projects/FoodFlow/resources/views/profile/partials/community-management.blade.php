@@ -4,7 +4,7 @@
     </header>
 
     @php
-        $currentCommunity = auth()->user()->communities()->first();
+        $currentCommunity = auth()->user()->currentCommunity;
     @endphp
 
     @if($currentCommunity)
