@@ -33,7 +33,7 @@
 
     <div class="mt-6">
         <h3 class="text-lg font-medium text-white mb-4">{{ __('Neue Community beitreten') }}</h3>
-        <form action="{{ route('community.join') }}" method="POST">
+        <form action="{{ route('community.switch') }}" method="POST">
             @csrf
             <div class="flex gap-2">
                 <input type="text" name="code"

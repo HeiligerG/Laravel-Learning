@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'current_community_id',
     ];
 
     /**
@@ -50,6 +51,10 @@ class User extends Authenticatable
     public function communities(): BelongsToMany
     {
         return $this->belongsToMany(Community::class, 'community_user');
+    }
+
+    public function currentCommunity() {
+        return $this->belongsTo(Community::class, 'current_community_id');
     }
 
 }
