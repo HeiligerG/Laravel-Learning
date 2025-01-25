@@ -10,7 +10,9 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
+            $table->foreignId('community_id')->constrained()->onDelete('cascade');
+            $table->unique(['name', 'community_id']); // Name nur innerhalb Community unique
             $table->timestamps();
         });
     }

@@ -10,13 +10,16 @@ class LocationController extends Controller
 {
     public function store(StoreLocationRequest $request): JsonResponse
     {
-        $location = Location::create($request->validated());
+        $data = $request->validated();
+        $data['community_id'] = auth()->user()->community_id;
+
+        $location = Location::create($data);
 
         return response()->json([
             'id' => $location->id,
             'name' => $location->name,
             'success' => true,
-            'message' => '  Standort hinzugefügt'
+            'message' => 'Standort hinzugefügt'
         ]);
     }
 }

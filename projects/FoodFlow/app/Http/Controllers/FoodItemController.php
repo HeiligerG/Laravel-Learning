@@ -14,7 +14,10 @@ class FoodItemController extends Controller
 {
     public function index(): View
     {
-        $foodItems = FoodItem::with(['category', 'location'])->orderBy('expiration_date', 'asc')->get();
+        $foodItems = FoodItem::with(['category', 'location'])
+            ->where('community_id', auth()->user()->community_id)
+            ->orderBy('expiration_date', 'asc')
+            ->get();
 
         return view('dashboard.index', compact('foodItems'))
             ->with('success', session('success'));
@@ -23,25 +26,26 @@ class FoodItemController extends Controller
     public function store(StoreFoodItemRequest $request): RedirectResponse
     {
         try {
-            $foodItem = FoodItem::create([
-                'name' => $request->name,
-                'expiration_date' => $request->expiration_date,
-                'quantity' => $request->quantity,
-                'category_id' => $request->category_id,
-                'location_id' => $request->location_id,
-            ]);
+            $data = $request->validated();
+            $data['community_id'] = auth()->user()->community_id;
+
+            $foodItem = FoodItem::create($data);
 
             return redirect()->route('dashboard')
                 ->with('success', 'Lebensmittel erfolgreich hinzugefügt.');
         } catch (\Exception $e) {
             return redirect()->back()
-                ->withErrors(['error' => 'Fehler beim Hinzufügen des Lebensmittels: ' . $e->getMessage()])
+                ->withErrors(['error' => 'Fehler beim Hinzufügen: ' . $e->getMessage()])
                 ->withInput();
         }
     }
 
     public function show(FoodItem $foodItem)
     {
+        if ($foodItem->community_id !== auth()->user()->community_id) {
+            abort(403);
+        }
+
         return view('item.show', [
             'foodItem' => $foodItem->load(['category', 'location'])
         ]);
@@ -49,6 +53,10 @@ class FoodItemController extends Controller
 
     public function destroy(FoodItem $foodItem): RedirectResponse
     {
+        if ($foodItem->community_id !== auth()->user()->community_id) {
+            abort(403);
+        }
+
         try {
             $foodItem->delete();
             return redirect()->route('dashboard')
@@ -61,6 +69,10 @@ class FoodItemController extends Controller
 
     public function edit(FoodItem $foodItem)
     {
+        if ($foodItem->community_id !== auth()->user()->community_id) {
+            abort(403);
+        }
+
         $categories = Category::all();
         $locations = Location::all();
 
@@ -70,6 +82,10 @@ class FoodItemController extends Controller
 
     public function update(Request $request, FoodItem $foodItem)
     {
+        if ($foodItem->community_id !== auth()->user()->community_id) {
+            abort(403);
+        }
+
         $validatedData = $request->validate([
             'name' => 'required',
             'category_id' => 'required',

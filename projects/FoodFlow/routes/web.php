@@ -6,9 +6,10 @@ use App\Http\Controllers\FoodItemController;
 use App\Http\Controllers\GroceryController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommunityController;
 
 Route::resource('food-items', FoodItemController::class)
-    ->except(['index']) // Wenn Index anders implementiert ist
+    ->except(['index'])
     ->names('foodItems');
 
 Route::get('/', function () {
@@ -18,6 +19,13 @@ Route::get('/', function () {
 Route::get('/dashboard/index', function () {
     return view('dashboard.index');
 })->middleware(['auth', 'verified'])->name('index');
+
+Route::middleware(['auth', 'no-community'])->group(function () {
+    Route::get('/join-community', [CommunityController::class, 'joinForm']);
+    Route::post('/join-community', [CommunityController::class, 'join']);
+    Route::get('/create-community', [CommunityController::class, 'createForm']);
+    Route::post('/create-community', [CommunityController::class, 'store']);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

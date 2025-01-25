@@ -5,22 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+USE Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'community_id'];
 
     public function foodItems() : HasMany
     {
         return $this->hasMany(FoodItem::class);
     }
 
-    public static function create(array $data) : Category
+    public function community() : BelongsTo
     {
-        return self::query()->create([
-            'name' => $data['name']
-        ]);
+        return $this->belongsTo(Community::class);
     }
 }

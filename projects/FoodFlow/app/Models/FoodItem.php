@@ -17,7 +17,8 @@ class FoodItem extends Model
         'category_id',
         'location_id',
         'expiration_date',
-        'quantity'
+        'quantity',
+        'community_id'
     ];
 
     protected $casts = [
@@ -33,4 +34,10 @@ class FoodItem extends Model
     {
         return $this->belongsTo(Location::class);
     }
+    
+    public function community(): BelongsTo
+    {
+        return $this->belongsTo(Community::class);
+    }
+
 }

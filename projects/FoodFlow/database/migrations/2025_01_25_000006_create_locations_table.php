@@ -11,6 +11,8 @@ class CreateLocationsTable extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->foreignId('community_id')->constrained()->onDelete('cascade');
+            $table->unique(['name', 'community_id']);
             $table->timestamps();
         });
     }

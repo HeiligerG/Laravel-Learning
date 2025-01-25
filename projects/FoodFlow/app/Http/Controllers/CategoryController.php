@@ -11,6 +11,9 @@ class CategoryController extends Controller
 {
     public function store(StoreCategoryRequest $request): JsonResponse
     {
+        $data = $request->validated();
+        $data['community_id'] = auth()->user()->community_id;
+
         $category = Category::create($request->validated());
 
         return response()->json([
