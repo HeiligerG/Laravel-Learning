@@ -17,21 +17,16 @@ class FoodItemController extends Controller
 
     private function getUserCommunityId()
     {
-        // Hole die aktuelle Community-ID des Benutzers
-        $currentCommunityId = auth()->user()->current_community_id;
+        // Holen Sie die Community des Benutzers (über die Many-to-Many-Beziehung)
+        $community = auth()->user()->communities()->first();
 
-        // Fehler, wenn keine aktuelle Community gesetzt ist
-        if (!$currentCommunityId) {
-            abort(403, 'Benutzer hat keine aktive Community!');
+        // Fehler, wenn keine Community zugewiesen ist
+        if (!$community) {
+            abort(403, 'Benutzer ist keiner Community zugewiesen!');
         }
 
-        // Optional: Prüfe, ob die Community existiert (falls Fremdschlüssel nicht gesetzt sind)
-        $communityExists = Community::where('id', $currentCommunityId)->exists();
-        if (!$communityExists) {
-            abort(404, 'Community existiert nicht mehr!');
-        }
-
-        return $currentCommunityId; // Direkt die ID zurückgeben (Integer)
+        // Geben Sie die ID der Community zurück (als Integer)
+        return $community->id;
     }
 
     public function index(): View
