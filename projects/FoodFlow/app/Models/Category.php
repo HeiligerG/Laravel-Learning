@@ -22,4 +22,9 @@ class Category extends Model
     {
         return $this->belongsTo(Community::class);
     }
+
+    public function currentCommunity()
+    {
+        return $this->belongsTo(Community::class, 'current_community_id');
+    }
 }

@@ -13,15 +13,23 @@ class GroceryController extends Controller
 {
     public function index(): View
     {
-        $community = auth()->user()->communities()->first();
+        $currentCommunity = auth()->user()
+            ->communities()
+            ->orderBy('community_user.updated_at', 'desc')
+            ->first();
 
-        if (!$community) {
+        if (!$currentCommunity) {
             abort(403, 'Benutzer ist keiner Community zugewiesen!');
         }
 
-        $categories = Category::where('community_id', $community->id)->get();
-        $locations = Location::where('community_id', $community->id)->get();
+        $foodItems = FoodItem::with(['category', 'location'])
+            ->where('community_id', $currentCommunity->id)
+            ->orderBy('expiration_date', 'asc')
+            ->paginate(12);
 
-        return view('grocery.create', compact('categories', 'locations'));
+        $categories = Category::where('community_id', $currentCommunity->id)->get();
+        $locations = Location::where('community_id', $currentCommunity->id)->get();
+
+        return view('grocery.create', compact('foodItems', 'categories', 'locations'));
     }
 }

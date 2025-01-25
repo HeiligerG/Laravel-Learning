@@ -16,7 +16,6 @@ class CommunityController extends Controller
         return view('community.join');
     }
 
-    // Formular zur Erstellung
     public function createForm()
     {
         return view('community.create');
@@ -30,10 +29,8 @@ class CommunityController extends Controller
 
         $community = Community::where('code', $validated['code'])->firstOrFail();
 
-        // User zur Community hinzufügen
         auth()->user()->communities()->attach($community->id);
 
-        // Aktuelle Community aktualisieren
         auth()->user()->update(['current_community_id' => $community->id]); // <-- HIER
 
         return redirect()->route('dashboard');
@@ -52,10 +49,8 @@ class CommunityController extends Controller
             'password' => Hash::make($validated['password'])
         ]);
 
-        // User zur neuen Community hinzufügen
         auth()->user()->communities()->attach($community->id);
 
-        // Aktuelle Community auf die neu erstellte setzen
         auth()->user()->update(['current_community_id' => $community->id]); // <-- HIER
 
         return redirect()->route('dashboard');
@@ -68,13 +63,21 @@ class CommunityController extends Controller
         ]);
 
         $community = Community::where('code', $validated['code'])->firstOrFail();
+        $user = auth()->user();
 
-        if (!auth()->user()->communities->contains($community->id)) {
-            auth()->user()->communities()->attach($community->id);
+        if (!$user->communities->contains($community->id)) {
+            $user->communities()->attach($community->id, ['is_active' => true]);
+        } else {
+            // Aktiviere die Community explizit
+            $user->communities()->updateExistingPivot($community->id, ['is_active' => true]);
         }
 
-        auth()->user()->update(['current_community_id' => $community->id]);
+        $user->communities()
+            ->where('community_id', '!=', $community->id)
+            ->update(['is_active' => false]);
 
-        return back()->with('success', 'Community gewechselt');
+        $user->update(['current_community_id' => $community->id]);
+
+        return back()->with('success', 'Community erfolgreich gewechselt');
     }
 }
