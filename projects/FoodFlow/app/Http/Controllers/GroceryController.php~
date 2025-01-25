@@ -15,9 +15,13 @@ class GroceryController extends Controller
     {
         $community = auth()->user()->communities()->first();
 
+        // Fehler, wenn keine Community zugewiesen ist
         if (!$community) {
             abort(403, 'Benutzer ist keiner Community zugewiesen!');
         }
+
+        // Geben Sie die ID der Community zurück (als Integer)
+        return $community->id;
 
         $categories = Category::where('community_id', $community->id)->get();
         $locations = Location::where('community_id', $community->id)->get();

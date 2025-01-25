@@ -22,9 +22,13 @@
             <!-- Profile Info -->
             <div class="bg-darkCard rounded-xl shadow-xl border border-brandIndigo/20 p-6 sm:p-8">
                 <div class="max-w-xl">
-                    <h3 class="text-xl font-bold text-white mb-2">Profilinformationen</h3>
-                    <p class="text-gray-400 text-sm mb-6">Aktualisiere deine Profilinformationen und E-Mail-Adresse.</p>
                     @include('profile.partials.update-profile-information-form')
+                </div>
+            </div>
+
+            <div class="bg-darkCard rounded-xl shadow-xl border border-brandIndigo/20 p-6 sm:p-8">
+                <div class="max-w-xl">
+                    @include('profile.partials.community-management')
                 </div>
             </div>
 

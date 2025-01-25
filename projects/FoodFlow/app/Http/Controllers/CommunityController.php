@@ -51,4 +51,21 @@ class CommunityController extends Controller
 
         return redirect()->route('dashboard');
     }
+
+    public function switch(Request $request)
+    {
+        $validated = $request->validate([
+            'code' => 'required|exists:communities,code'
+        ]);
+
+        $community = Community::where('code', $validated['code'])->firstOrFail();
+
+        if (!auth()->user()->communities->contains($community->id)) {
+            auth()->user()->communities()->attach($community->id);
+        }
+
+        auth()->user()->update(['current_community_id' => $community->id]);
+
+        return back()->with('success', 'Community gewechselt');
+    }
 }

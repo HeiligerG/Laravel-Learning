@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/locations', [LocationController::class, 'store'])->name('locations.store');
     Route::get('food-items/{foodItem}/edit', [FoodItemController::class, 'edit'])->name('foodItems.edit');
     Route::patch('/food-items/{foodItem}', [FoodItemController::class, 'update'])->name('foodItems.update');
+    Route::post('/community/switch', [CommunityController::class, 'switch'])->name('community.switch');
 });
 
 require __DIR__.'/auth.php';
