@@ -17,32 +17,27 @@ class FoodItemController extends Controller
 
     private function getUserCommunityId()
     {
-        // Hole die aktuelle Community-ID des Benutzers
         $currentCommunityId = auth()->user()->current_community_id;
 
-        // Fehler, wenn keine aktuelle Community gesetzt ist
         if (!$currentCommunityId) {
             abort(403, 'Benutzer hat keine aktive Community!');
         }
 
-        // Optional: Prüfe, ob die Community existiert (falls Fremdschlüssel nicht gesetzt sind)
         $communityExists = Community::where('id', $currentCommunityId)->exists();
         if (!$communityExists) {
             abort(404, 'Community existiert nicht mehr!');
         }
 
-        return $currentCommunityId; // Direkt die ID zurückgeben (Integer)
+        return $currentCommunityId;
     }
 
     public function index(Request $request): View
     {
         $communityId = $this->getUserCommunityId();
 
-        // Kategorien und Standorte für Dropdowns laden
         $categories = Category::where('community_id', $communityId)->get();
         $locations = Location::where('community_id', $communityId)->get();
 
-        // FoodItems mit Filtern und Sortierung
         $foodItems = FoodItem::with(['category', 'location', 'community'])
             ->where('community_id', $communityId)
             ->when($request->search, fn($q) => $q->where('name', 'like', '%'.$request->search.'%'))
@@ -52,7 +47,6 @@ class FoodItemController extends Controller
             ->paginate(12)
             ->withQueryString();
 
-        // AJAX-Response
         if ($request->ajax()) {
             return view('item.partials.items', compact('foodItems'));
         }
@@ -66,10 +60,8 @@ class FoodItemController extends Controller
         try {
             $data = $request->validated();
 
-            // Community-ID holen
             $data['community_id'] = $this->getUserCommunityId();
 
-            // FoodItem erstellen
             FoodItem::create($data);
 
             return redirect()->route('dashboard')

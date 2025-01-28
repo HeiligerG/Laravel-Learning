@@ -1,8 +1,8 @@
 <div class="min-h-screen bg-brandDark"
      x-data="foodSearch()"
      x-init="init()"
-     @search-updated.debounce.300ms="updateSearch($event.detail)"
-     @filter-changed.debounce.150ms="fetchResults()">
+     @search-updated.debounce.300ms="params.search = $event.detail; fetchResults()"
+@filter-changed.debounce.150ms="fetchResults()">
 
     <x-search :categories="$categories" :locations="$locations" />
 
@@ -44,7 +44,16 @@
                 async fetchResults(url = null) {
                     this.loading = true;
                     try {
-                        const requestUrl = url || `{{ route('dashboard') }}?${new URLSearchParams(this.params)}`;
+                        const currentParams = {
+                            search: this.params.search,
+                            category: this.params.category,
+                            location: this.params.location,
+                            sort: this.params.sort
+                        };
+
+                        const queryString = new URLSearchParams(currentParams).toString();
+                        const requestUrl = url || `{{ route('dashboard') }}?${queryString}`;
+
                         const response = await fetch(requestUrl, {
                             headers: { 'X-Requested-With': 'XMLHttpRequest' }
                         });
@@ -60,7 +69,6 @@
             }));
         });
 
-        // Pagination Handler
         document.addEventListener('click', (e) => {
             const paginationLink = e.target.closest('.pagination a');
             if (paginationLink) {
