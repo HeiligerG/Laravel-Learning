@@ -107,6 +107,7 @@ class FoodItemController extends Controller
             abort(403);
         }
 
+        // Kategorien und Standorte NUR aus der aktuellen Community laden
         $communityId = $this->getUserCommunityId();
         $categories = Category::where('community_id', $communityId)->get();
         $locations = Location::where('community_id', $communityId)->get();
@@ -120,6 +121,7 @@ class FoodItemController extends Controller
             abort(403);
         }
 
+        // Validierung in eine separate Request-Klasse auslagern (UpdateFoodItemRequest)
         $validatedData = $request->validated();
 
         try {

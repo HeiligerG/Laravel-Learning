@@ -3,19 +3,15 @@
             search: '',
             category: '',
             location: '',
-            sort: 'expiration_date'
         },
         init() {
-            // Initialize from URL
             const urlParams = new URLSearchParams(window.location.search);
             this.params = {
                 search: urlParams.get('search') || '',
                 category: urlParams.get('category') || '',
                 location: urlParams.get('location') || '',
-                sort: urlParams.get('sort') || 'expiration_date'
             };
 
-            // Dispatch initial values
             this.$watch('params', () => this.updateFilters(), { deep: true });
         },
         updateFilters: Alpine.debounce(function() {
@@ -27,7 +23,6 @@
     <form id="search-form"
           class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4">
 
-        <!-- Search Field -->
         <input type="text"
                name="search"
                x-model="params.search"
@@ -35,8 +30,7 @@
                placeholder="Suche..."
                class="w-full p-3 rounded-lg bg-darkCard border border-brandIndigo/30 text-white">
 
-        <!-- Filter Dropdowns -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <select x-model="params.category"
                     name="category"
                     @change="$dispatch('filter-changed')"
@@ -55,15 +49,6 @@
                 @foreach($locations as $location)
                     <option value="{{ $location->id }}">{{ $location->name }}</option>
                 @endforeach
-            </select>
-
-            <select x-model="params.sort"
-                    name="sort"
-                    @change="$dispatch('filter-changed')"
-                    class="p-3 rounded-lg bg-darkCard border border-brandIndigo/30 text-white">
-                <option value="expiration_date">Sortieren nach Datum</option>
-                <option value="name">Sortieren nach Name</option>
-                <option value="created_at">Sortieren nach Hinzugefügt</option>
             </select>
         </div>
     </form>
