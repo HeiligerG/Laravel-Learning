@@ -40,7 +40,7 @@ class FoodItemController extends Controller
 
         $foodItems = FoodItem::with(['category', 'location', 'community'])
             ->where('community_id', $communityId)
-            ->when($request->search, fn($q) => $q->where('name', 'like', '%'.$request->search.'%'))
+            ->when($request->search, fn($q) => $q->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($request->search) . '%']))
             ->when($request->category, fn($q) => $q->where('category_id', $request->category))
             ->when($request->location, fn($q) => $q->where('location_id', $request->location))
             ->orderBy($request->sort ?? 'expiration_date', 'asc')
