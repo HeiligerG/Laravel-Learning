@@ -21,7 +21,6 @@
         Neue{{ $label === 'Standort' ? 'r' : '' }} {{ $label }}
     </button>
 
-    <!-- Modal -->
     <template x-teleport="body">
         <div x-show="openModal" x-cloak
              class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">

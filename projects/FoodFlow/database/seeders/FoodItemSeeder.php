@@ -13,7 +13,6 @@ class FoodItemSeeder extends Seeder
 {
     public function run()
     {
-        // Get test community id
         $communityId = Community::first()->id;
 
         if (Category::count() === 0 || Location::count() === 0) {

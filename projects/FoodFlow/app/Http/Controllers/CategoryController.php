@@ -15,11 +15,9 @@ class CategoryController extends Controller
             return response()->json(['error' => 'Benutzer ist keiner Community zugewiesen!'], 403);
         }
 
-        // Daten validieren und Community-ID hinzufügen
         $data = $request->validated();
         $data['community_id'] = $community->id;
 
-        // Kategorie erstellen
         $category = Category::create($data);
 
         return response()->json([

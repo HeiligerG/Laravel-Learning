@@ -19,7 +19,6 @@ class StoreCategoryRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                // Prüfe auf eindeutigen Namen innerhalb der Community
                 Rule::unique('categories')->where('community_id', $this->community_id),
             ],
         ];

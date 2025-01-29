@@ -8,10 +8,8 @@
                     class="absolute inset-0 w-full h-full object-cover transform scale-105 hover:scale-100 transition-transform duration-700"
                 />
 
-                <!-- Gradient overlay -->
                 <div class="absolute inset-0 bg-gradient-to-br from-brandIndigo/60 to-brandIndigo/40"></div>
 
-                <!-- Content -->
                 <div class="relative z-10 flex flex-col items-center justify-center h-full px-6 space-y-4">
                     <h2 class="text-6xl font-extrabold text-white tracking-tight">
                         Lebensmittel bearbeiten
