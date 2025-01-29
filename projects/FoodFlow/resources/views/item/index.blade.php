@@ -2,18 +2,16 @@
      x-data="foodSearch()"
      x-init="init()"
      @search-updated.debounce.300ms="params.search = $event.detail; fetchResults()"
-@filter-changed.debounce.150ms="fetchResults()">
+     @filter-changed.debounce.150ms="params = $event.detail; fetchResults()">
 
     <x-search :categories="$categories" :locations="$locations" />
 
-    <!-- Loading Overlay -->
     <div x-show="loading" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center" style="display: none;">
         <div class="animate-spin rounded-full h-12 w-12 border-4 border-brandIndigo border-t-transparent"></div>
     </div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div id="food-items-container" x-html="results">
-            <!-- Initial content -->
             @include('item.partials.items', ['foodItems' => $foodItems])
         </div>
     </div>
@@ -26,8 +24,7 @@
                 params: {
                     search: '',
                     category: '',
-                    location: '',
-                    sort: 'expiration_date'
+                    location: ''
                 },
 
                 init() {
@@ -35,8 +32,7 @@
                     this.params = {
                         search: urlParams.get('search') || '',
                         category: urlParams.get('category') || '',
-                        location: urlParams.get('location') || '',
-                        sort: urlParams.get('sort') || 'expiration_date'
+                        location: urlParams.get('location') || ''
                     };
                     this.fetchResults();
                 },
@@ -45,10 +41,9 @@
                     this.loading = true;
                     try {
                         const currentParams = {
-                            search: this.params.search,
-                            category: this.params.category,
-                            location: this.params.location,
-                            sort: this.params.sort
+                            search: encodeURIComponent(this.params.search),
+                            category: encodeURIComponent(this.params.category),
+                            location: encodeURIComponent(this.params.location)
                         };
 
                         const queryString = new URLSearchParams(currentParams).toString();

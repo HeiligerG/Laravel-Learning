@@ -2,14 +2,14 @@
         params: {
             search: '',
             category: '',
-            location: '',
+            location: ''
         },
         init() {
             const urlParams = new URLSearchParams(window.location.search);
             this.params = {
                 search: urlParams.get('search') || '',
                 category: urlParams.get('category') || '',
-                location: urlParams.get('location') || '',
+                location: urlParams.get('location') || ''
             };
 
             this.$watch('params', () => this.updateFilters(), { deep: true });
@@ -31,23 +31,25 @@
                class="w-full p-3 rounded-lg bg-darkCard border border-brandIndigo/30 text-white">
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <select x-model="params.category"
-                    name="category"
-                    @change="$dispatch('filter-changed')"
-                    class="p-3 rounded-lg bg-darkCard border border-brandIndigo/30 text-white">
+            <select
+                x-model="params.category"
+                @change.debounce.300ms="$dispatch('filter-changed', params)"
+                name="category"
+                class="p-3 rounded-lg bg-darkCard border border-brandIndigo/30 text-white">
                 <option value="">Alle Kategorien</option>
                 @foreach($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
 
-            <select x-model="params.location"
-                    name="location"
-                    @change="$dispatch('filter-changed')"
-                    class="p-3 rounded-lg bg-darkCard border border-brandIndigo/30 text-white">
+            <select
+                x-model="params.location"
+                @change.debounce.300ms="$dispatch('filter-changed', params)"
+                name="location"
+                class="p-3 rounded-lg bg-darkCard border border-brandIndigo/30 text-white">
                 <option value="">Alle Standorte</option>
                 @foreach($locations as $location)
-                    <option value="{{ $location->id }}">{{ $location->name }}</option>
+                    <option value="{{ $location->name }}">{{ $location->name }}</option>
                 @endforeach
             </select>
         </div>
