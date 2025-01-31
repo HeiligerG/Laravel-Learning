@@ -17,7 +17,7 @@
         </div>
     </x-slot>
 
-    <div class="py-6 bg-brandDark">
+    <div class="py-6 ">
         <div class="max-w-md mx-auto sm:px-6 lg:px-8">
             <div class="mb-8 bg-darkCard rounded-xl shadow-xl border border-brandIndigo/20 p-6">
                 <h3 class="text-xl font-bold text-white mb-4">Community beitreten</h3>
