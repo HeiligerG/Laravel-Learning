@@ -30,7 +30,7 @@
             <div class="space-y-2">
                 <label for="name" class="block text-sm font-medium text-white">Name</label>
                 <input type="text" name="name" id="name" placeholder="Lebensmittelname eingeben"
-                       class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-gray-400 rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo transition-colors"
+                       class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-white rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo transition-colors"
                        required>
             </div>
 
@@ -44,7 +44,7 @@
             <div class="space-y-2">
                 <label for="quantity" class="block text-sm font-medium text-white">Menge</label>
                 <input type="number" name="quantity" id="quantity" min="1" placeholder="Menge eingeben"
-                       class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-gray-400 rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo transition-colors"
+                       class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-white rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo transition-colors"
                        required>
             </div>
 
