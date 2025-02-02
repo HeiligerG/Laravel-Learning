@@ -19,7 +19,7 @@
 
     <div class="py-6 ">
         <div class="max-w-md mx-auto sm:px-6 lg:px-8">
-            <div class="mb-8 bg-darkCard rounded-xl shadow-xl border border-brandIndigo/20 p-6">
+            <div class="mb-8 bg-darkCard rounded-xl border border-brandIndigo/20 shadow-lg shadow-brandIndigo p-6">
                 <h3 class="text-xl font-bold text-white mb-4">Community beitreten</h3>
                 <form action="{{ route('community.join') }}" method="POST">
                     @csrf
@@ -42,7 +42,7 @@
                 </form>
             </div>
 
-            <div class="bg-darkCard rounded-xl shadow-xl border border-brandIndigo/20 p-6">
+            <div class="bg-darkCard rounded-xl border border-brandIndigo/20 shadow-lg shadow-brandIndigo p-6">
                 <h3 class="text-xl font-bold text-white mb-4">Neue Community erstellen</h3>
                 <form action="{{ route('community.store') }}" method="POST">
                     @csrf

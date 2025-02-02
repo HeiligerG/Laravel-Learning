@@ -49,7 +49,7 @@
                 class="p-3 rounded-lg bg-darkCard border border-brandIndigo/30 text-white">
                 <option value="">Alle Standorte</option>
                 @foreach($locations as $location)
-                    <option value="{{ $location->name }}">{{ $location->name }}</option>
+                    <option value="{{ $location->id }}">{{ $location->name }}</option>
                 @endforeach
             </select>
         </div>
