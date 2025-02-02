@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -41,8 +42,25 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    public function currentCommunity() {
+    public function currentCommunity()
+    {
         return $this->belongsTo(Community::class, 'current_community_id');
+    }
+
+    public function patchNotes()
+    {
+        return $this->belongsToMany(PatchNote::class, 'user_patch_notes')
+            ->withPivot('seen')
+            ->withTimestamps();
+    }
+
+    public function unseenPatchNotes()
+    {
+        return $this->patchNotes()
+            ->wherePivot('seen', false)
+            ->orWhereDoesntHave('users', function($query) {
+                $query->where('user_id', $this->id);
+            });
     }
 
 }
