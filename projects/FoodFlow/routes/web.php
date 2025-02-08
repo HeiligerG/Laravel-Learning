@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/patch-notes', [PatchNoteController::class, 'show'])->name('patch-notes.show');
-    Route::post('/patch-notes/{patchNote}/seen', [PatchNoteController::class, 'markAsSeen'])->name('patch-notes.seen');
+    Route::post('/patch-notes/mark-seen', [PatchNoteController::class, 'markAsSeen'])->name('patch-notes.mark-seen');
 
     Route::get('/dashboard', [FoodItemController::class, 'index'])->name('dashboard');
     Route::get('/add-grocery', [GroceryController::class, 'index'])->name('addGrocery');

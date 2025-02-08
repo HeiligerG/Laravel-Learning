@@ -15,9 +15,10 @@
                     <p class="text-lg sm:text-xl text-white/90 font-medium max-w-2xl text-center">
                         Behalte den Überblick über deine Lebensmittel und deren Verfallsdaten.
                     </p>
+                    @include('patch-notes.show', ['unseenPatchNotes' => $unseenPatchNotes ?? collect()])
                 </div>
             </div>
-
+        </div>
     <div class="py-6 bg-brandDark">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-mainIndigo text-gray-100 overflow-hidden shadow-lg sm:rounded-lg">
@@ -26,3 +27,4 @@
         </div>
     </div>
 </x-app-layout>
+

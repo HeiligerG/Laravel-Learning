@@ -27,12 +27,6 @@
     </main>
 </div>
 
-@auth
-    @if(auth()->check() && isset($unseenPatchNotes) && $unseenPatchNotes->count() > 0)
-        @include('patch-notes.show')
-    @endif
-@endauth
-
 </body>
 <footer class="mt-12 text-center text-sm text-gray-500">
     © 2025 FoodFlow. Alle Rechte vorbehalten.

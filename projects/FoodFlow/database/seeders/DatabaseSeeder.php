@@ -14,10 +14,13 @@ class DatabaseSeeder extends Seeder
         DB::table('categories')->truncate();
         DB::table('locations')->truncate();
         DB::table('food_items')->truncate();
+        DB::table('patch_notes')->truncate();
+        DB::table('user_patch_notes')->truncate();
 
         $this->call(TestUserSeeder::class);
         $this->call(CategorySeeder::class);
         $this->call(LocationSeeder::class);
         $this->call(FoodItemSeeder::class);
+        $this->call(PatchNotesSeeder::class);
     }
 }

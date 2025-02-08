@@ -58,9 +58,8 @@ class User extends Authenticatable
     {
         return $this->patchNotes()
             ->wherePivot('seen', false)
-            ->orWhereDoesntHave('users', function($query) {
-                $query->where('user_id', $this->id);
-            });
+            ->latest('release_date')
+            ->limit(1);
     }
 
 }

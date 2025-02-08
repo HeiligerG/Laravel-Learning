@@ -34,6 +34,7 @@ class FoodItemController extends Controller
     public function index(Request $request): View
     {
         $communityId = $this->getUserCommunityId();
+        $user = auth()->user();
 
         $categories = Category::where('community_id', $communityId)->get();
         $locations = Location::where('community_id', $communityId)->get();
@@ -47,11 +48,17 @@ class FoodItemController extends Controller
             ->paginate(12)
             ->withQueryString();
 
+        $unseenPatchNotes = collect();
+
+        if ($user) {
+            $unseenPatchNotes = $user->unseenPatchNotes()->latest('release_date')->take(1)->get();
+        }
+
         if ($request->ajax()) {
             return view('item.partials.items', compact('foodItems'));
         }
 
-        return view('dashboard.index', compact('foodItems', 'categories', 'locations'))
+        return view('dashboard.index', compact('foodItems', 'categories', 'locations', 'unseenPatchNotes'))
             ->with('success', session('success'));
     }
 
