@@ -29,37 +29,6 @@ FoodFlow ist eine webbasierte Anwendung zur Organisation und Verwaltung von Lebe
 - PostgreSQL
 - Node.js & NPM
 
-### Setup
-1. Repository klonen:
-```bash
-git clone https://github.com/[username]/FoodFlow.git
-cd FoodFlow
-```
-
-2. Dependencies installieren:
-```bash
-composer install
-npm install
-```
-
-3. Umgebungsvariablen konfigurieren:
-```bash
-cp .env.example .env
-php artisan key:generate
-```
-
-4. Datenbank einrichten:
-```bash
-php artisan migrate
-php artisan db:seed
-```
-
-5. Entwicklungsserver starten:
-```bash
-php artisan serve
-npm run dev
-```
-
 ## Deployment
 Die Anwendung ist konfiguriert für Deployment auf:
 - Oracle Cloud Infrastructure
