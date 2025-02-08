@@ -1,10 +1,9 @@
+# FoodFlow
 
 ## Server Status
 
 [![Server Status](https://img.shields.io/website?url=https://foodflow.vip)](https://foodflow.vip)
 [![Last Commit](https://img.shields.io/github/last-commit/HeiligerG/Laravel-Learning)](https://github.com/HeiligerG/Laravel-Learning)
-
-# FoodFlow
 
 ## Über das Projekt
 FoodFlow ist eine webbasierte Anwendung zur Organisation und Verwaltung von Lebensmitteln in Gemeinschaften. Die Anwendung ermöglicht es Gruppen (z.B. WGs, Familien, kleine Organisationen), ihre Lebensmittel effizient zu verwalten, Verfallsdaten zu überwachen und Lebensmittelverschwendung zu reduzieren.
