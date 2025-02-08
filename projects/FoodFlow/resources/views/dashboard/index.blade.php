@@ -1,5 +1,32 @@
 <x-app-layout>
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+
+            <div class="max-w-7xl mx-auto mb-4">
+            @if (session('status'))
+                <x-alert
+                    type="info"
+                    :message="session('status')"
+                    class="mb-4"
+                />
+            @endif
+
+            @if (session('success'))
+                <x-alert
+                    type="success"
+                    :message="session('success')"
+                    class="mb-4"
+                />
+            @endif
+
+            @if ($errors->any())
+                <x-alert
+                    type="error"
+                    :message="$errors->first()"
+                    class="mb-4"
+                />
+            @endif
+            </div>
+
             <div class="relative w-full h-64 overflow-hidden rounded-xl shadow-2xl">
                 <img
                     src="{{ asset('images/bg-info.png') }}"
@@ -19,12 +46,11 @@
                 </div>
             </div>
         </div>
-    <div class="py-6 bg-brandDark">
+
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-mainIndigo text-gray-100 overflow-hidden shadow-lg sm:rounded-lg">
                 @include('item.index', ['foodItems' => $foodItems])
             </div>
         </div>
-    </div>
 </x-app-layout>
 

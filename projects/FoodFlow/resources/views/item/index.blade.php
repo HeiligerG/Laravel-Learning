@@ -4,6 +4,8 @@
      @search-updated.debounce.300ms="params.search = $event.detail; fetchResults()"
      @filter-changed.debounce.150ms="params = $event.detail; fetchResults()">
 
+    <div class="bg-brandDark">
+
     <x-search :categories="$categories" :locations="$locations" />
 
     <div x-show="loading" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center" style="display: none;">

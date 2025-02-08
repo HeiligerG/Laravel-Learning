@@ -2,32 +2,32 @@
     <div class="bg-darkCard border border-brandIndigo/20 rounded-xl shadow-lg shadow-brandIndigo p-8 max-w-md w-full">
         <h2 class="text-2xl font-bold text-white mb-6 text-center">Login</h2>
 
-        @if (session('status'))
-            <x-alert
-                type="info"
-                :message="session('status')"
-                class="mb-4"
-            />
-        @endif
-
-        @if (session('success'))
-            <x-alert
-                type="success"
-                :message="session('success')"
-                class="mb-4"
-            />
-        @endif
-
-        @if ($errors->any())
-            <x-alert
-                type="error"
-                :message="$errors->first()"
-                class="mb-4"
-            />
-        @endif
-
-        <form method="POST" action="{{ route('login') }}" class="space-y-6">
+        <form method="POST" action="{{ route('login') }}" novalidate class="space-y-6">
             @csrf
+
+            @if (session('status'))
+                <x-alert
+                    type="info"
+                    :message="session('status')"
+                    class="mb-4"
+                />
+            @endif
+
+            @if (session('success'))
+                <x-alert
+                    type="success"
+                    :message="session('success')"
+                    class="mb-4"
+                />
+            @endif
+
+            @if ($errors->any())
+                <x-alert
+                    type="error"
+                    :message="$errors->first()"
+                    class="mb-4"
+                />
+            @endif
 
             <div class="space-y-2">
                 <x-input-label for="email" :value="__('Email')" class="text-white" />
@@ -39,7 +39,6 @@
                               required
                               autofocus
                               placeholder="name@example.com" />
-                <x-input-error :messages="$errors->get('email')" class="text-sm text-red-400" />
             </div>
 
             <div class="space-y-2">
@@ -50,10 +49,9 @@
                               name="password"
                               required
                               placeholder="••••••••" />
-                <x-input-error :messages="$errors->get('password')" class="text-sm text-red-400" />
             </div>
 
-            <div class="flex items-center justify-between">
+            <div class="sm:flex-row md:flex items-center md:justify-between">
                 <label class="flex items-center">
                     <input type="checkbox" name="remember" class="rounded border-slate-700 bg-slate-800/50 text-brandIndigo focus:ring-brandIndigo">
                     <span class="ml-2 text-sm text-gray-300">{{ __('Remember me') }}</span>

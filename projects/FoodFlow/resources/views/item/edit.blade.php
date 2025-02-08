@@ -25,33 +25,33 @@
         </div>
     </div>
 
-    @if (session('status'))
-        <x-alert
-            type="info"
-            :message="session('status')"
-            class="mb-4"
-        />
-    @endif
-
-    @if (session('success'))
-        <x-alert
-            type="success"
-            :message="session('success')"
-            class="mb-4"
-        />
-    @endif
-
-    @if ($errors->any())
-        <x-alert
-            type="error"
-            :message="$errors->first()"
-            class="mb-4"
-        />
-    @endif
-
-    <form action="{{ route('foodItems.update', $foodItem) }}" method="POST" class="bg-darkCard rounded-xl shadow-xl border border-brandIndigo/20 p-6">
+    <form action="{{ route('foodItems.update', $foodItem) }}" novalidate method="POST" class="bg-darkCard rounded-xl shadow-xl border border-brandIndigo/20 p-6">
         @csrf
         @method('PATCH')
+
+        @if (session('status'))
+            <x-alert
+                type="info"
+                :message="session('status')"
+                class="mb-4"
+            />
+        @endif
+
+        @if (session('success'))
+            <x-alert
+                type="success"
+                :message="session('success')"
+                class="mb-4"
+            />
+        @endif
+
+        @if ($errors->any())
+            <x-alert
+                type="error"
+                :message="$errors->first()"
+                class="mb-4"
+            />
+        @endif
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div class="space-y-2">
@@ -80,14 +80,14 @@
                 name="category_id"
                 label="Kategorie"
                 route="{{ route('categories.store') }}"
-                :selected="$foodItem->category_id" />
+                :selected="old('category_id', $foodItem->category_id)" />
 
             <x-generic-dropdown
                 :items="$locations"
                 name="location_id"
                 label="Standort"
                 route="{{ route('locations.store') }}"
-                :selected="$foodItem->location_id" />
+                :selected="old('location_id', $foodItem->location_id)" />
         </div>
 
         <div class="mt-8 flex justify-end">

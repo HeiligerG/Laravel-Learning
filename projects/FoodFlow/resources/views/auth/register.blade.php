@@ -2,24 +2,32 @@
     <div class="bg-darkCard border border-brandIndigo/20 rounded-xl shadow-lg shadow-brandIndigo p-8 max-w-md w-full">
         <h2 class="text-2xl font-bold text-white mb-6 text-center">Register</h2>
 
-        @if (session('status'))
-            <x-alert
-                type="info"
-                :message="session('status')"
-                class="mb-4"
-            />
-        @endif
-
-        @if ($errors->any())
-            <x-alert
-                type="error"
-                :message="$errors->first()"
-                class="mb-4"
-            />
-        @endif
-
-        <form method="POST" action="{{ route('register') }}" class="space-y-6">
+        <form method="POST" action="{{ route('register') }}" novalidate class="space-y-6">
             @csrf
+
+            @if (session('status'))
+                <x-alert
+                    type="info"
+                    :message="session('status')"
+                    class="mb-4"
+                />
+            @endif
+
+            @if (session('success'))
+                <x-alert
+                    type="success"
+                    :message="session('success')"
+                    class="mb-4"
+                />
+            @endif
+
+            @if ($errors->any())
+                <x-alert
+                    type="error"
+                    :message="$errors->first()"
+                    class="mb-4"
+                />
+            @endif
 
             <div class="space-y-2">
                 <label for="name" class="block text-sm font-medium text-white">Name</label>
@@ -31,7 +39,6 @@
                        required
                        autofocus
                        placeholder="John Doe" />
-                <x-input-error :messages="$errors->get('name')" class="text-sm text-red-400" />
             </div>
 
             <div class="space-y-2">
@@ -43,7 +50,6 @@
                        class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-gray-400 rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo transition-colors"
                        required
                        placeholder="name@example.com" />
-                <x-input-error :messages="$errors->get('email')" class="text-sm text-red-400" />
             </div>
 
             <div class="space-y-2">
@@ -54,7 +60,6 @@
                        class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-gray-400 rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo transition-colors"
                        required
                        placeholder="••••••••" />
-                <x-input-error :messages="$errors->get('password')" class="text-sm text-red-400" />
             </div>
 
             <div class="space-y-2">
@@ -65,7 +70,6 @@
                        class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-gray-400 rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo transition-colors"
                        required
                        placeholder="••••••••" />
-                <x-input-error :messages="$errors->get('password_confirmation')" class="text-sm text-red-400" />
             </div>
 
             <div class="flex flex-col gap-4 pt-2">

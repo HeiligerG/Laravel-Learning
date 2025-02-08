@@ -1,4 +1,4 @@
-<form action="{{ route('foodItems.store') }}" method="POST" class="max-w-4xl mx-auto">
+<form action="{{ route('foodItems.store') }}" method="POST" novalidate class="max-w-4xl mx-auto">
     @csrf
     <div class="bg-darkCard rounded-xl shadow-xl border border-brandIndigo/20 p-6 sm:p-8">
 
@@ -28,24 +28,26 @@
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div class="space-y-2">
-                <label for="name" class="block text-sm font-medium text-white">Name</label>
+                <x-input-label for="name" :value="__('Name')" class="text-white"></x-input-label>
                 <input type="text" name="name" id="name" placeholder="Lebensmittelname eingeben"
                        class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-white rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo transition-colors"
-                       required>
+                value="{{ old('name') }}" required>
             </div>
 
+
+
             <div class="space-y-2">
-                <label for="expiration_date" class="block text-sm font-medium text-white">Verfallsdatum</label>
+                <x-input-label for="expiration_date" :value="__('Verfallsdatum')" class="text-white"></x-input-label>
                 <input type="date" name="expiration_date" id="expiration_date"
                        class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-gray-400 rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo transition-colors"
-                       required>
+                       value="{{ old('expiration_date') }}" required>
             </div>
 
             <div class="space-y-2">
-                <label for="quantity" class="block text-sm font-medium text-white">Menge</label>
+                <x-input-label for="quantity" :value="__('Menge')" class="text-white"></x-input-label>
                 <input type="number" name="quantity" id="quantity" min="1" placeholder="Menge eingeben"
                        class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-white rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo transition-colors"
-                       required>
+                       value="{{ old('quantity') }}" required>
             </div>
 
             <x-generic-dropdown
