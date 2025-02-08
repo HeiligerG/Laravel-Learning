@@ -1,0 +1,151 @@
+Ja! Du kannst dein **Oracle VM Deployment automatisch ausführen**, sobald Änderungen auf den `oracle-deploy`-Branch gepusht werden. Dafür gibt es verschiedene Methoden:
+
+---
+
+# **✅ Methode 1: Automatische GitHub Actions (Empfohlen)**
+GitHub Actions kann dein Deployment automatisch ausführen, wenn du Änderungen an `oracle-deploy` pushst.
+
+### **📌 Schritt 1: SSH-Zugang zur VM vorbereiten**
+1. **Öffne die VM und erstelle einen SSH-Schlüssel:**
+   ```sh
+   ssh-keygen -t rsa -b 4096 -C "github@oracle-vm"
+   ```
+    - Gib keinen **Passphrase** ein, wenn du danach gefragt wirst.
+    - Es wird ein Schlüssel **`~/.ssh/id_rsa`** und **`~/.ssh/id_rsa.pub`** erstellt.
+
+2. **Zeige den öffentlichen Schlüssel an:**
+   ```sh
+   cat ~/.ssh/id_rsa.pub
+   ```
+    - Kopiere den kompletten Schlüssel.
+
+3. **Gehe zu GitHub → Repository → Einstellungen → Secrets → "New Secret"**
+    - **Name:** `SSH_PRIVATE_KEY`
+    - **Wert:** Öffne die Datei `~/.ssh/id_rsa` und kopiere den gesamten Inhalt.
+
+4. **Füge die GitHub-SSH-Schlüssel zur VM hinzu:**
+   ```sh
+   echo "SSH_PUBLIC_KEY_HIER_EINFÜGEN" >> ~/.ssh/authorized_keys
+   chmod 600 ~/.ssh/authorized_keys
+   ```
+
+---
+
+### **📌 Schritt 2: GitHub Actions Workflow (`.github/workflows/deploy.yml`)**
+Erstelle in deinem Repository die Datei **`.github/workflows/deploy.yml`** und füge diesen Code ein:
+
+```yaml
+name: Oracle VM Deployment
+
+on:
+  push:
+    branches:
+      - oracle-deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H oracle-vm-ip >> ~/.ssh/known_hosts
+
+      - name: Deployment auf Oracle VM
+        run: |
+          ssh -i ~/.ssh/id_rsa user@oracle-vm-ip << 'EOF'
+            cd /var/www
+            if [ ! -d "Laravel-Learning" ]; then
+                git clone https://github.com/HeiligerG/Laravel-Learning.git
+            fi
+            cd Laravel-Learning
+            git pull origin oracle-deploy
+            rsync -av --delete projects/FoodFlow/ /var/www/laravel/
+            cd /var/www/laravel
+            php artisan down
+            composer install --no-dev --optimize-autoloader
+            php artisan migrate --force
+            php artisan db:seed --class=PatchNotesSeeder
+            php artisan cache:clear
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+            sudo chown -R www-data:www-data /var/www/laravel
+            sudo systemctl restart php8.3-fpm
+            sudo systemctl restart nginx
+            php artisan up
+          EOF
+```
+
+---
+
+### **📌 Schritt 3: Deployment testen**
+1. **Pushe Änderungen auf den Branch `oracle-deploy`**
+   ```sh
+   git add .
+   git commit -m "Automatisches Deployment"
+   git push origin oracle-deploy
+   ```
+2. **Gehe zu GitHub → Actions → Oracle VM Deployment**
+3. **Sieh dir die Logs an, ob das Deployment funktioniert hat.**
+
+---
+
+## **✅ Methode 2: Deployment per Webhook & Git Hooks**
+Falls du GitHub Actions nicht nutzen möchtest, kannst du **Webhooks** oder **Git Hooks** direkt auf deiner VM verwenden.
+
+### **📌 Schritt 1: Webhook auf der VM einrichten**
+1. **Auf der VM ein Skript erstellen (`/var/www/webhook.sh`)**
+   ```sh
+   #!/bin/bash
+   cd /var/www/Laravel-Learning
+   git pull origin oracle-deploy
+   rsync -av --delete projects/FoodFlow/ /var/www/laravel/
+   cd /var/www/laravel
+   php artisan down
+   composer install --no-dev --optimize-autoloader
+   php artisan migrate --force
+   php artisan db:seed --class=PatchNotesSeeder
+   php artisan cache:clear
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+   sudo chown -R www-data:www-data /var/www/laravel
+   sudo systemctl restart php8.3-fpm
+   sudo systemctl restart nginx
+   php artisan up
+   ```
+   **Speichern und ausführbar machen:**
+   ```sh
+   chmod +x /var/www/webhook.sh
+   ```
+
+2. **Einen kleinen Webserver für Webhooks einrichten**
+   ```sh
+   sudo apt install socat
+   socat TCP-LISTEN:9001,fork EXEC:/var/www/webhook.sh &
+   ```
+   📌 **Warum?**
+    - `socat` lauscht auf **Port 9001**, wenn GitHub den Webhook auslöst.
+
+3. **Gehe zu GitHub → Repository → Settings → Webhooks**
+    - **Payload URL:** `http://oracle-vm-ip:9001/`
+    - **Content type:** `application/json`
+    - **Trigger:** `Just the push event`
+    - **Add Webhook**
+
+---
+
+## **🚀 Fazit: Vollautomatisches Deployment auf deiner Oracle VM**
+### 🔥 **Beste Methode?**
+| Methode | Vorteile | Nachteile |
+|---|---|---|
+| **GitHub Actions (Methode 1)** | Einfach zu verwalten, sicher & automatisiert | Erfordert GitHub Secrets |
+| **Webhook & Git Hooks (Methode 2)** | Direkt auf der VM, kein GitHub Actions nötig | Webhook-Server muss laufen |
+
+✅ **Für Einsteiger empfehle ich GitHub Actions** – damit hast du eine **saubere, sichere Lösung**, die **automatisch läuft**, wenn du pusht.
