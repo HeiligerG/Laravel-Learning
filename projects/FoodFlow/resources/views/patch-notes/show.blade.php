@@ -1,5 +1,5 @@
 <div x-data="{ showModal: {{ $unseenPatchNotes->isNotEmpty() ? 'true' : 'false' }} }">
-    <div x-show="showModal" id="patchNotesModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+    <div x-show="showModal" id="patchNotesModal" x-cloak class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
         <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-brandDark">
             <div class="mt-3">
                 <div class="flex items-center justify-between">

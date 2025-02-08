@@ -75,7 +75,7 @@
         </div>
 
         <!-- Mobile menu -->
-        <div :class="{'block': open, 'hidden': !open}" class="sm:hidden">
+        <div :class="{'block': open, 'hidden': !open}" x-cloak class="sm:hidden">
             <div class="px-2 pt-2 pb-3 space-y-1">
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"
                                        class="block px-3 py-2 rounded-lg text-base font-medium {{ request()->routeIs('dashboard') ? 'bg-brandIndigo text-black' : 'text-brandIndigo hover:text-white hover:bg-white/5' }} transition-colors">
