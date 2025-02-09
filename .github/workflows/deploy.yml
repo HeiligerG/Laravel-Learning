@@ -32,10 +32,13 @@ jobs:
 
       - name: Deploy to Oracle VM
         run: |
-          # First sync the files
+          # First prepare the target directory with correct permissions
+          ssh -i ~/.ssh/id_rsa ubuntu@140.238.222.190 'sudo rm -rf /var/www/laravel/* && sudo chown -R ubuntu:ubuntu /var/www/laravel'
+          
+          # Then sync the files
           rsync -av --delete ./ ubuntu@140.238.222.190:/var/www/laravel/
           
-          # Then execute deployment commands
+          # Execute deployment commands
           ssh -i ~/.ssh/id_rsa ubuntu@140.238.222.190 << 'EOF'
             set -e  # Stop execution if any command fails
             trap 'cd /var/www/laravel && php artisan up' EXIT  # Ensure app goes back online
@@ -45,7 +48,7 @@ jobs:
             # Take application down for maintenance
             php artisan down --render="errors::503"
 
-            # Ensure correct ownership and permissions
+            # Ensure correct ownership and permissions for deployment
             sudo chown -R ubuntu:ubuntu .
             
             # Install dependencies and optimize
@@ -61,9 +64,10 @@ jobs:
             php artisan route:cache
             php artisan view:cache
 
-            # Set final permissions
+            # Set final permissions for web server
+            sudo chown -R www-data:www-data .
+            sudo chmod -R 775 .
             sudo chmod -R 775 storage bootstrap/cache
-            sudo chown -R www-data:www-data storage bootstrap/cache
 
             # Restart services
             sudo systemctl restart php8.3-fpm
