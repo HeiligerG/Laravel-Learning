@@ -16,9 +16,11 @@ jobs:
             projects/FoodFlow
           sparse-checkout-cone-mode: false
 
-      - name: Move FoodFlow to correct location
+      - name: Move FoodFlow to deployment location
         run: |
-          mv projects/FoodFlow/* .
+          cd projects
+          mv FoodFlow/* ..
+          cd ..
           rm -rf projects
 
       - name: Setup SSH
@@ -28,10 +30,12 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H 140.238.222.190 >> ~/.ssh/known_hosts
 
-      - name: Deployment auf Oracle VM
+      - name: Deploy to Oracle VM
         run: |
+          # First sync the files
           rsync -av --delete ./ ubuntu@140.238.222.190:/var/www/laravel/
           
+          # Then execute deployment commands
           ssh -i ~/.ssh/id_rsa ubuntu@140.238.222.190 << 'EOF'
             set -e  # Stop execution if any command fails
             trap 'cd /var/www/laravel && php artisan up' EXIT  # Ensure app goes back online
@@ -67,4 +71,4 @@ jobs:
 
             # Bring application back online
             php artisan up
-            EOF
+EOF
