@@ -72,7 +72,7 @@ jobs:
                     fi
 
                     # Sync ONLY the FoodFlow project
-                    rsync -av --delete projects/FoodFlow/ /var/www/laravel/
+                    rsync -av --delete FoodFlow/ /var/www/laravel/
 
                     cd /var/www/laravel
                     php artisan down --render="errors::503"
