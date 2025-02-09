@@ -13,9 +13,9 @@ class PatchNotesSeeder extends Seeder
     {
         $patches = [
             [
-                'version' => '1.3.0',
-                'description' => "- Clean Alerts\n- Filterung\n- Responsive Design",
-                'release_date' => '2025-01-26'
+                'version' => '1.1.0',
+                'description' => "- Fehlerbehebung\n- Suchfunktion\n- Clean Alerts\n- Filterung\n- Responsive Design",
+                'release_date' => '2025-02-29'
             ],
         ];
 
