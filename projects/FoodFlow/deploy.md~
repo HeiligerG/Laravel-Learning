@@ -82,22 +82,14 @@ jobs:
 
                     cd /var/www/laravel
 
-                    # Ensure all required PHP extensions are installed
-                    sudo apt-get update
-                    sudo apt-get install -y php8.3-mbstring php8.3-xml php8.3-curl
-
-                    # Copy .env file
-                    cp .env.example .env
-
-                    # Install Composer dependencies with proper permissions
-                    export COMPOSER_ALLOW_SUPERUSER=1
-                    composer install --no-interaction --no-dev --optimize-autoloader
-
-                    # Generate application key
-                    php artisan key:generate
-
                     # Take application down for maintenance
                     php artisan down --render="errors::503"
+
+                    # Ensure correct ownership and permissions for deployment
+                    sudo chown -R ubuntu:ubuntu .
+
+                    # Install dependencies and optimize
+                    composer install --no-dev --optimize-autoloader
 
                     # Run database migrations and seeds
                     php artisan migrate --force
