@@ -31,60 +31,101 @@ GitHub Actions kann dein Deployment automatisch ausführen, wenn du Änderungen 
 Erstelle in deinem Repository die Datei **`.github/workflows/deploy.yml`** und füge diesen Code ein:
 
 ```yaml
-- name: Deploy to Oracle VM
-  run: |
-      # Sichern der vorhandenen .env
-      ssh -i ~/.ssh/id_rsa ubuntu@140.238.222.190 'cd /var/www/laravel/FoodFlow && [ -f .env ] && cp .env /tmp/backup.env || true'
+name: Oracle VM Deployment
 
-      # Verzeichnisstruktur vorbereiten
-      ssh -i ~/.ssh/id_rsa ubuntu@140.238.222.190 'sudo rm -rf /var/www/laravel/FoodFlow && sudo mkdir -p /var/www/laravel/FoodFlow && sudo chown -R ubuntu:ubuntu /var/www/laravel/FoodFlow'
+on:
+    push:
+        branches:
+            - oracle-deploy
 
-      # Dateien synchronisieren
-      rsync -av --delete ./ ubuntu@140.238.222.190:/var/www/laravel/FoodFlow/
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v3
+              with:
+                  sparse-checkout: |
+                      projects/FoodFlow
+                  sparse-checkout-cone-mode: false
 
-      # Deployment ausführen
-      ssh -i ~/.ssh/id_rsa ubuntu@140.238.222.190 << 'EOF'
-        set -e
-        cd /var/www/laravel/FoodFlow
+            - name: Move FoodFlow to deployment location
+              run: |
+                  cd projects
+                  mv FoodFlow/* ..
+                  cd ..
+                  rm -rf projects
 
-        # Wiederherstellen der .env
-        [ -f /tmp/backup.env ] && cp /tmp/backup.env .env
+            - name: Setup SSH
+              run: |
+                  mkdir -p ~/.ssh
+                  echo -e "${{ secrets.SSH_PRIVATE_KEY }}" | sed 's/\r$//' > ~/.ssh/id_rsa
+                  chmod 600 ~/.ssh/id_rsa
+                  ssh-keyscan -H 140.238.222.190 >> ~/.ssh/known_hosts
 
-        # Install Composer dependencies
-        composer install --no-dev --no-interaction --optimize-autoloader
+            - name: Deploy to Oracle VM
+              run: |
+                  # Sichern der vorhandenen .env
+                  ssh -i ~/.ssh/id_rsa ubuntu@140.238.222.190 'cd /var/www/laravel/FoodFlow && [ -f .env ] && cp .env /tmp/backup.env || true'
 
-        # Install NPM dependencies and build assets
-        npm install
-        npm run build
+                  # Verzeichnisstruktur vorbereiten
+                  ssh -i ~/.ssh/id_rsa ubuntu@140.238.222.190 'sudo rm -rf /var/www/laravel/FoodFlow && sudo mkdir -p /var/www/laravel/FoodFlow && sudo chown -R ubuntu:ubuntu /var/www/laravel/FoodFlow'
 
-        # Take application down for maintenance
-        php artisan down --render="errors::503"
+                  # Dateien synchronisieren
+                  rsync -av --delete ./ ubuntu@140.238.222.190:/var/www/laravel/FoodFlow/
 
-        # Run database migrations and seeds
-        php artisan migrate --force
-        php artisan db:seed --class=PatchNotesSeeder
+                  # Deployment ausführen
+                  ssh -i ~/.ssh/id_rsa ubuntu@140.238.222.190 << 'EOF'
+                    set -e
+                    cd /var/www/laravel/FoodFlow
 
-        # Clear and rebuild cache
-        php artisan optimize:clear
-        php artisan config:cache
-        php artisan route:cache
-        php artisan view:cache
+                    # Wiederherstellen der .env
+                    [ -f /tmp/backup.env ] && cp /tmp/backup.env .env
 
-        # Set final permissions
-        sudo chown -R www-data:www-data .
-        sudo chmod -R 775 .
-        sudo chmod -R 775 storage bootstrap/cache
+                    # Install Composer dependencies
+                    composer install --no-dev --no-interaction --optimize-autoloader
 
-        # Restart services
-        sudo systemctl restart php8.3-fpm
-        sudo systemctl restart nginx
+                    # Vorbereitung für NPM
+                    export NODE_OPTIONS="--max-old-space-size=4096"
+                    sudo rm -rf node_modules package-lock.json
+                    npm cache clean --force
 
-        # Bring application back online
-        php artisan up
+                    # Install NPM dependencies with increased memory and timeout
+                    npm install --no-audit --no-fund --no-optional
+                    npm run build
 
-        # Clean up
-        rm -f /tmp/backup.env
-    EOF
+                    # Generate application key if not exists
+                    php artisan key:generate --force
+
+                    # Take application down for maintenance
+                    php artisan down --render="errors::503"
+
+                    # Run database migrations and seeds
+                    php artisan migrate --force
+                    php artisan db:seed --class=PatchNotesSeeder # Muss immer neu erstellt werden
+
+                    # Clear and rebuild cache
+                    php artisan optimize:clear
+                    php artisan config:cache
+                    php artisan route:cache
+                    php artisan view:cache
+
+                    # Set final permissions
+                    sudo chown -R www-data:www-data .
+                    sudo chmod -R 775 .
+                    sudo chmod -R 775 storage bootstrap/cache
+
+                    # Restart services
+                    sudo systemctl restart php8.3-fpm
+                    sudo systemctl restart nginx
+
+                    # Bring application back online
+                    php artisan up
+
+                    # Clean up
+                    rm -f /tmp/backup.env
+                  EOF
+
 ```
 
 ---
