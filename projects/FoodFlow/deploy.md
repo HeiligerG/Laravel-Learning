@@ -70,7 +70,7 @@ jobs:
             - name: Deploy to Oracle VM
               run: |
                   # First prepare the target directory with correct permissions
-                  ssh -i ~/.ssh/id_rsa ubuntu@140.238.222.190 'sudo rm -rf /var/www/laravel/* && sudo chown -R ubuntu:ubuntu /var/www/laravel'
+                  ssh -i ~/.ssh/id_rsa ubuntu@140.238.222.190 'sudo rm -rf /var/www/laravel/* && sudo mkdir -p /var/www/laravel && sudo chown -R ubuntu:ubuntu /var/www/laravel'
 
                   # Then sync the files
                   rsync -av --delete ./ ubuntu@140.238.222.190:/var/www/laravel/
@@ -82,19 +82,8 @@ jobs:
 
                     cd /var/www/laravel
 
-                    # Ensure all required PHP extensions are installed
-                    sudo apt-get update
-                    sudo apt-get install -y php8.3-mbstring php8.3-xml php8.3-curl
-
-                    # Copy .env file
-                    cp .env.example .env
-
                     # Install Composer dependencies with proper permissions
-                    export COMPOSER_ALLOW_SUPERUSER=1
-                    composer install --no-interaction --no-dev --optimize-autoloader
-
-                    # Generate application key
-                    php artisan key:generate
+                    composer install --no-dev --no-interaction --optimize-autoloader
 
                     # Take application down for maintenance
                     php artisan down --render="errors::503"
@@ -104,7 +93,7 @@ jobs:
                     php artisan db:seed --class=PatchNotesSeeder
 
                     # Clear and rebuild cache
-                    php artisan cache:clear
+                    php artisan optimize:clear
                     php artisan config:cache
                     php artisan route:cache
                     php artisan view:cache
