@@ -46,12 +46,19 @@ jobs:
     deploy:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout Repository (nur FoodFlow)
+            - name: Checkout Repository
               uses: actions/checkout@v3
               with:
                   sparse-checkout: |
                       projects/FoodFlow
                   sparse-checkout-cone-mode: false
+
+            - name: Move FoodFlow to deployment location
+              run: |
+                  cd projects
+                  mv FoodFlow/* ..
+                  cd ..
+                  rm -rf projects
 
             - name: Setup SSH
               run: |
@@ -60,41 +67,48 @@ jobs:
                   chmod 600 ~/.ssh/id_rsa
                   ssh-keyscan -H 140.238.222.190 >> ~/.ssh/known_hosts
 
-            - name: Deployment auf Oracle VM
+            - name: Deploy to Oracle VM
               run: |
+                  # First sync the files
+                  rsync -av --delete ./ ubuntu@140.238.222.190:/var/www/laravel/
+
+                  # Then execute deployment commands
                   ssh -i ~/.ssh/id_rsa ubuntu@140.238.222.190 << 'EOF'
                     set -e  # Stop execution if any command fails
-                    trap 'php artisan up' EXIT  # Ensure app goes back online
-
-                    cd /var/www
-                    if [ ! -d "laravel" ]; then
-                        mkdir -p /var/www/laravel
-                    fi
-
-                    # Sync ONLY the FoodFlow project
-                    rsync -av --delete FoodFlow/ /var/www/laravel
+                    trap 'cd /var/www/laravel && php artisan up' EXIT  # Ensure app goes back online
 
                     cd /var/www/laravel
+
+                    # Take application down for maintenance
                     php artisan down --render="errors::503"
 
+                    # Ensure correct ownership and permissions
+                    sudo chown -R ubuntu:ubuntu .
+
+                    # Install dependencies and optimize
                     composer install --no-dev --optimize-autoloader
+
+                    # Run database migrations and seeds
                     php artisan migrate --force
                     php artisan db:seed --class=PatchNotesSeeder
+
+                    # Clear and rebuild cache
                     php artisan cache:clear
                     php artisan config:cache
                     php artisan route:cache
                     php artisan view:cache
 
-                    # Set permissions
-                    chmod -R 775 storage bootstrap/cache
-                    chown -R www-data:www-data /var/www/laravel storage bootstrap/cache
+                    # Set final permissions
+                    sudo chmod -R 775 storage bootstrap/cache
+                    sudo chown -R www-data:www-data storage bootstrap/cache
 
                     # Restart services
                     sudo systemctl restart php8.3-fpm
                     sudo systemctl restart nginx
 
+                    # Bring application back online
                     php artisan up
-                  EOF
+    EOF
 ```
 
 ---
