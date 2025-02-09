@@ -46,8 +46,12 @@ jobs:
     deploy:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout Repository
+            - name: Checkout Repository (nur FoodFlow)
               uses: actions/checkout@v3
+              with:
+                  sparse-checkout: |
+                      projects/FoodFlow
+                  sparse-checkout-cone-mode: false
 
             - name: Setup SSH
               run: |
@@ -63,13 +67,11 @@ jobs:
                     trap 'php artisan up' EXIT  # Ensure app goes back online
 
                     cd /var/www
-                    if [ ! -d "Laravel-Learning" ]; then
-                        git clone https://github.com/HeiligerG/Laravel-Learning.git
+                    if [ ! -d "laravel" ]; then
+                        mkdir -p /var/www/laravel
                     fi
-                    cd Laravel-Learning
-                    git pull origin oracle-deploy
 
-                    # Sync Files
+                    # Sync ONLY the FoodFlow project
                     rsync -av --delete projects/FoodFlow/ /var/www/laravel/
 
                     cd /var/www/laravel
