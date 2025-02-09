@@ -15,7 +15,7 @@ class PatchNotesSeeder extends Seeder
             [
                 'version' => '1.1.0',
                 'description' => "- Fehlerbehebung\n- Suchfunktion\n- Clean Alerts\n- Filterung\n- Responsive Design",
-                'release_date' => '2025-02-29'
+                'release_date' => '2025-02-09'
             ],
         ];
 
