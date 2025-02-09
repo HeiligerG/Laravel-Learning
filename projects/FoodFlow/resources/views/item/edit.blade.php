@@ -29,29 +29,31 @@
         @csrf
         @method('PATCH')
 
-        @if (session('status'))
-            <x-alert
-                type="info"
-                :message="session('status')"
-                class="mb-4"
-            />
-        @endif
+        <div class="max-w-7xl mx-auto mb-4">
+            @if (session('status'))
+                <x-alert
+                    type="info"
+                    :message="session('status')"
+                    class="mb-4"
+                />
+            @endif
 
-        @if (session('success'))
-            <x-alert
-                type="success"
-                :message="session('success')"
-                class="mb-4"
-            />
-        @endif
+            @if (session('success'))
+                <x-alert
+                    type="success"
+                    :message="session('success')"
+                    class="mb-4"
+                />
+            @endif
 
-        @if ($errors->any())
-            <x-alert
-                type="error"
-                :message="$errors->first()"
-                class="mb-4"
-            />
-        @endif
+            @if ($errors->any())
+                <x-alert
+                    type="error"
+                    :message="$errors->first()"
+                    class="mb-4"
+                />
+            @endif
+        </div>
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div class="space-y-2">

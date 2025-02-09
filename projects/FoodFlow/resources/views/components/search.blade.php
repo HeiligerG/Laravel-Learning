@@ -26,14 +26,14 @@
         <input type="text"
                name="search"
                x-model="params.search"
-               @input.debounce.300ms="$dispatch('search-updated', params.search)"
+               @input.debounce.50ms="$dispatch('search-updated', params.search)"
                placeholder="Suche..."
                class="w-full p-3 rounded-lg bg-darkCard border border-brandIndigo/30 text-white">
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <select
                 x-model="params.category"
-                @change.debounce.300ms="$dispatch('filter-changed', params)"
+                @change.debounce.50ms="$dispatch('filter-changed', params)"
                 name="category"
                 class="p-3 rounded-lg bg-darkCard border border-brandIndigo/30 text-white">
                 <option value="">Alle Kategorien</option>

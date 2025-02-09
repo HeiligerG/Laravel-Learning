@@ -2,29 +2,31 @@
     @csrf
     <div class="bg-darkCard rounded-xl shadow-xl border border-brandIndigo/20 p-6 sm:p-8">
 
-        @if (session('status'))
-            <x-alert
-                type="info"
-                :message="session('status')"
-                class="mb-4"
-            />
-        @endif
+        <div class="max-w-7xl mx-auto mb-4">
+            @if (session('status'))
+                <x-alert
+                    type="info"
+                    :message="session('status')"
+                    class="mb-4"
+                />
+            @endif
 
-        @if (session('success'))
-            <x-alert
-                type="success"
-                :message="session('success')"
-                class="mb-4"
-            />
-        @endif
+            @if (session('success'))
+                <x-alert
+                    type="success"
+                    :message="session('success')"
+                    class="mb-4"
+                />
+            @endif
 
-        @if ($errors->any())
-            <x-alert
-                type="error"
-                :message="$errors->first()"
-                class="mb-4"
-            />
-        @endif
+            @if ($errors->any())
+                <x-alert
+                    type="error"
+                    :message="$errors->first()"
+                    class="mb-4"
+                />
+            @endif
+        </div>
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div class="space-y-2">
@@ -45,9 +47,23 @@
 
             <div class="space-y-2">
                 <x-input-label for="quantity" :value="__('Menge')" class="text-white"></x-input-label>
-                <input type="number" name="quantity" id="quantity" min="1" placeholder="Menge eingeben"
-                       class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-white rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo transition-colors"
-                       value="{{ old('quantity') }}" required>
+                <div class="relative flex items-center">
+                    <input type="number" name="quantity" id="quantity" min="1" placeholder="Menge"
+                           class="w-full px-4 py-3 bg-slate-800/50 text-white placeholder-white rounded-lg border border-slate-700 focus:border-brandIndigo focus:ring-1 focus:ring-brandIndigo transition-colors"
+                           value="{{ old('quantity') }}" required>
+
+                    <!-- Custom Pfeile -->
+                    <div class="absolute mr-4 right-1 flex flex-col">
+                        <button type="button" onclick="document.getElementById('quantity').stepUp()"
+                                class="text-gray-400 hover:text-white text-xs px-1">
+                            ▲
+                        </button>
+                        <button type="button" onclick="document.getElementById('quantity').stepDown()"
+                                class="text-gray-400 hover:text-white text-xs px-1">
+                            ▼
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <x-generic-dropdown

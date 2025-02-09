@@ -5,3 +5,17 @@
 [x-cloak] {
     display: none;
 }
+
+/* Entfernt die Pfeile in Webkit-Browsern (Chrome, Edge, Safari) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none !important;
+    appearance: none;
+    margin: 0;
+}
+
+/* Entfernt Pfeile in Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
