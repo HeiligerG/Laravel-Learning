@@ -69,20 +69,26 @@ jobs:
 
             - name: Deploy to Oracle VM
               run: |
-                  # First prepare the target directory with correct permissions
-                  ssh -i ~/.ssh/id_rsa ubuntu@140.238.222.190 'sudo rm -rf /var/www/laravel/* && sudo mkdir -p /var/www/laravel && sudo chown -R ubuntu:ubuntu /var/www/laravel'
+                  # Sichern der vorhandenen .env wenn sie existiert
+                  ssh -i ~/.ssh/id_rsa ubuntu@140.238.222.190 'cd /var/www/laravel/FoodFlow && [ -f .env ] && cp .env /tmp/backup.env || true'
 
-                  # Then sync the files
-                  rsync -av --delete ./ ubuntu@140.238.222.190:/var/www/laravel/
+                  # Verzeichnisstruktur vorbereiten
+                  ssh -i ~/.ssh/id_rsa ubuntu@140.238.222.190 'sudo rm -rf /var/www/laravel/FoodFlow && sudo mkdir -p /var/www/laravel/FoodFlow && sudo chown -R ubuntu:ubuntu /var/www/laravel/FoodFlow'
 
-                  # Execute deployment commands
+                  # Dateien synchronisieren in den FoodFlow Ordner
+                  rsync -av --delete ./ ubuntu@140.238.222.190:/var/www/laravel/FoodFlow/
+
+                  # Deployment ausführen
                   ssh -i ~/.ssh/id_rsa ubuntu@140.238.222.190 << 'EOF'
                     set -e  # Stop execution if any command fails
-                    trap 'cd /var/www/laravel && php artisan up' EXIT  # Ensure app goes back online
+                    trap 'cd /var/www/laravel/FoodFlow && php artisan up' EXIT  # Ensure app goes back online
 
-                    cd /var/www/laravel
+                    cd /var/www/laravel/FoodFlow
 
-                    # Install Composer dependencies with proper permissions
+                    # Wiederherstellen der .env aus dem Backup
+                    [ -f /tmp/backup.env ] && cp /tmp/backup.env .env
+
+                    # Install Composer dependencies
                     composer install --no-dev --no-interaction --optimize-autoloader
 
                     # Take application down for maintenance
@@ -109,6 +115,9 @@ jobs:
 
                     # Bring application back online
                     php artisan up
+
+                    # Clean up
+                    rm -f /tmp/backup.env
                   EOF
 ```
 
