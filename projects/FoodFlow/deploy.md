@@ -108,7 +108,7 @@ jobs:
 
                     # Bring application back online
                     php artisan up
-    EOF
+                  EOF
 ```
 
 ---
