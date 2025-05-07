@@ -51,4 +51,14 @@ Route::get('/multiply/{number1}/{number2}', function ($number1, $number2) {
         'result' => $number1 * $number2
     ]);
 })->where(['number1' => '[0-9]+', 'number2' => '[0-9]+']);
+# Bessere Lösung: ->whereNumbers($number1, $number2);
+});
+
+# Nächste Aufgabe: hallo-velo
+Route::prefix('hallo-velo')->group(function () {
+    Route::get('/bikes', function ($name) {
+        return response()->json([
+            'name' => $name
+        ]);
+    });
 });
