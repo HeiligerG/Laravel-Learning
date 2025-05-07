@@ -62,3 +62,4 @@ Route::prefix('hallo-velo')->group(function () {
     Route::get('/bikes', fn () => Bike::all());
     Route::get('/bikes/{id}', fn ($id) => Bike::find($id));
 });
+# Gearbeitet mit Modelen bzw. C:\Users\gggig\Laravel-Learning\ÜK-M295\A1-Einstieg\app\Models\Bike.php
