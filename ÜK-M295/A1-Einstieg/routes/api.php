@@ -54,11 +54,11 @@ Route::get('/multiply/{number1}/{number2}', function ($number1, $number2) {
 # Bessere Lösung: ->whereNumbers($number1, $number2);
 });
 
+
+use App\Models\Bike;
+
 # Nächste Aufgabe: hallo-velo
 Route::prefix('hallo-velo')->group(function () {
-    Route::get('/bikes', function ($name) {
-        return response()->json([
-            'name' => $name
-        ]);
-    });
+    Route::get('/bikes', fn () => Bike::all());
+    Route::get('/bikes/{id}', fn ($id) => Bike::find($id));
 });
