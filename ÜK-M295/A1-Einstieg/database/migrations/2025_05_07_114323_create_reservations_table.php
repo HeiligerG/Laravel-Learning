@@ -13,17 +13,13 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-
-            // Fremdschlüssel zu rooms.id
-            $table->unsignedBigInteger('room_id');
-            $table->string('guest_name');
-            $table->date('start_date');
-            $table->date('end_date');
-
+            $table->string('firstname');
+            $table->string('lastname');
+            $table->text('note')->nullable();
+            $table->date('date');
+            $table->integer('nights');
+            $table->decimal('room_temperature', 4, 1);
             $table->timestamps();
-
-            // Fremdschlüssel-Beziehung
-            $table->foreign('room_id')->references('id')->on('rooms')->onDelete('cascade');
         });
     }
 
