@@ -63,3 +63,32 @@ Route::prefix('hallo-velo')->group(function () {
     Route::get('/bikes/{id}', fn ($id) => Bike::find($id));
 });
 # Gearbeitet mit Modelen bzw. C:\Users\gggig\Laravel-Learning\ÜK-M295\A1-Einstieg\app\Models\Bike.php
+
+
+use App\Models\Book;
+
+# Nächste Aufgabe: Book'ler
+Route::prefix('bookler')->group(function () {
+    Route::get('/books', fn () => Book::all());
+    Route::get('/books/{id}', fn ($id) => Book::find($id));
+    Route::get('/search/{search}', fn ($search) => Book::where('title', 'like', '%'.$search.'%')->get());
+    
+    Route::prefix('book-finder')->group(function () {
+        Route::get('/slug/{slug}', fn ($slug) => Book::where('slug', $slug)->get());
+        Route::get('/year/{year}', fn ($year) => Book::where('year', $year)->get());
+        Route::get('/max-pages/{pages}', fn ($pages) => Book::where('pages', '<', $pages)->get());
+        });
+
+    Route::prefix('meta')->group(function () {
+        Route::get('/count', fn () => Book::count());
+        Route::get('/avg-pages', fn () => Book::avg('pages'));
+    });
+
+    Route::get('/dashboard', fn () => [
+        'books'  => Book::count(),
+        'pages'  => Book::sum('pages'),
+        'oldest' => Book::min('year'),
+        'newest' => Book::max('year'),
+    ]);
+});
+# Bessere Lösung: ->whereSlug($slug), ->whereYear($year), ->where('name', 'like', '%'.$search.'%')->get(
