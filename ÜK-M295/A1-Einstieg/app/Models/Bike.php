@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Bike extends Model
 {
     protected $table = 'bikes';
-    protected $fillable = ['description', 'brand'];
+    protected $fillable = [
+        'description', 
+        'brand'
+    ];
 }
 
