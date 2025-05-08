@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('plants', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('area_id')->unique()->constrained();
+            $table->string('name');
+            $table->string('slug');
+            $table->string('description');
+            $table->string('stock');
             $table->timestamps();
         });
     }

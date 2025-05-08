@@ -25,7 +25,9 @@ class DatabaseSeeder extends Seeder
             AuthorSeeder::class,
             TopicSeeder::class,
             TagSeeder::class,
-            PostSeeder::class
+            PostSeeder::class,
+            AreaSeeder::class,
+            PlantSeeder::class
         ]);
     }
 }
