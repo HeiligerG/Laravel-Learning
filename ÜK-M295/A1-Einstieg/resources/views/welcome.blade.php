@@ -448,6 +448,7 @@
             <header>
                 <nav>
                     <a href="{{ url('/') }}">Log in</a>
+                    <a href="{{ url('/api-links') }}">API Links</a>
                 </nav>
             </header>
             
