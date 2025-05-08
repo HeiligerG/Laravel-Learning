@@ -54,19 +54,17 @@ Route::get('/multiply/{number1}/{number2}', function ($number1, $number2) {
 # Bessere Lösung: ->whereNumbers($number1, $number2);
 });
 
-
+# Nächste Aufgabe: hallo-velo
 use App\Models\Bike;
 
-# Nächste Aufgabe: hallo-velo
 Route::prefix('hallo-velo')->group(function () {
     Route::get('/bikes', fn () => Bike::all());
     Route::get('/bikes/{id}', fn ($id) => Bike::find($id));
 });
-# Gearbeitet mit Modelen bzw. C:\Users\gggig\Laravel-Learning\ÜK-M295\A1-Einstieg\app\Models\Bike.php
-
-use App\Http\Controllers\BookController;
 
 # Nächste Aufgabe: Book'ler
+use App\Http\Controllers\BookController;
+
 Route::prefix('bookler')->group(function () {
     Route::get('/posts', [BookController::class, 'allPosts']);
     Route::get('/posts/{id}', [BookController::class, 'getByPost']);
@@ -93,11 +91,11 @@ Route::prefix('bookler')->group(function () {
     ]);
 });
 
+# Neue Aufgabe: RelationSheep
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\TagController;
 
-# Neue Aufgabe: RelationSheep
 Route::prefix('relationsheep')->group(function () {
     Route::get('/posts', [PostController::class, 'index']);
     Route::get('/topics/{slug}/posts', [TopicController::class, 'postsBySlug']);
