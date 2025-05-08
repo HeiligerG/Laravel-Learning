@@ -8,7 +8,7 @@ class TopicController extends Controller
 {
     public function postsBySlug(string $slug)
     {
-        $topic = Topic::where('slug', $slug)->with('posts, author')->find();
+        $topic = Topic::where('slug', $slug)->with('posts')->first();
 
         if (!$topic) {
             return response()->json(['message' => 'Topic not found'], 404);

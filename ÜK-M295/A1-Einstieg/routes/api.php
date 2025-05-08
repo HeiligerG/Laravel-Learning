@@ -94,10 +94,11 @@ Route::prefix('bookler')->group(function () {
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TopicController;
+use App\Http\Controllers\TagController;
 
 # Neue Aufgabe: RelationSheep
 Route::prefix('relationsheep')->group(function () {
     Route::get('/posts', [PostController::class, 'index']);
     Route::get('/topics/{slug}/posts', [TopicController::class, 'postsBySlug']);
+    Route::get('/tags/{tagSlug}/posts', [TagController::class, 'postsByTagSlug']);
 });
-

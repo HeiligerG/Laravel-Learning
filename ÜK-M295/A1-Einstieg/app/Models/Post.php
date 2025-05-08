@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Topic;
 use App\Models\Author;
+use App\Models\Tag;
 
 class Post extends Model
 {
@@ -20,6 +21,10 @@ class Post extends Model
 
     public function author() {
         return $this->belongsTo(Author::class);
+    }
+
+    public function tags() {
+        return $this->belongsToMany(Tag::class);
     }
 
 }
