@@ -91,4 +91,13 @@ Route::prefix('bookler')->group(function () {
         'newest' => Book::max('year'),
     ]);
 });
-# Bessere Lösung: ->whereSlug($slug), ->whereYear($year), ->where('name', 'like', '%'.$search.'%')->get(
+
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\TopicController;
+
+# Neue Aufgabe: RelationSheep
+Route::prefix('relationsheep')->group(function () {
+    Route::get('/posts', [PostController::class, 'index']);
+    Route::get('/topics/{slug}/posts', [TopicController::class, 'postsBySlug']);
+});
+

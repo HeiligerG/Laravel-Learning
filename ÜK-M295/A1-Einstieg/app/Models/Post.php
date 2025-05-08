@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Topic;
 
 class Post extends Model
 {
@@ -11,4 +12,9 @@ class Post extends Model
         'title', 
         'content',
     ];
+
+    public function topic() {
+    return $this->belongsTo(Topic::class);
+    }
+
 }
