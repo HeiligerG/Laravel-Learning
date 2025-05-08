@@ -64,24 +64,25 @@ Route::prefix('hallo-velo')->group(function () {
 });
 # Gearbeitet mit Modelen bzw. C:\Users\gggig\Laravel-Learning\ÜK-M295\A1-Einstieg\app\Models\Bike.php
 
-
-use App\Models\Book;
+use App\Http\Controllers\BookController;
 
 # Nächste Aufgabe: Book'ler
 Route::prefix('bookler')->group(function () {
-    Route::get('/books', fn () => Book::all());
-    Route::get('/books/{id}', fn ($id) => Book::find($id));
-    Route::get('/search/{search}', fn ($search) => Book::where('title', 'like', '%'.$search.'%')->get());
-    
+    Route::get('/posts', [BookController::class, 'allPosts']);
+    Route::get('/posts/{id}', [BookController::class, 'getByPost']);
+    Route::get('/search/{search}', [BookController::class, 'searchPosts']);
+
     Route::prefix('book-finder')->group(function () {
-        Route::get('/slug/{slug}', fn ($slug) => Book::where('slug', $slug)->get());
-        Route::get('/year/{year}', fn ($year) => Book::where('year', $year)->get());
-        Route::get('/max-pages/{pages}', fn ($pages) => Book::where('pages', '<', $pages)->get());
-        });
+        Route::get('/slug/{slug}', [BookController::class, 'getPostBySlug']);
+        Route::get('/title/{title}', [BookController::class, 'getPostByTitle']);
+        Route::get('/author/{author}', [BookController::class, 'getPostByAuthor']);
+        Route::get('/year/{year}', [BookController::class, 'getPostByYear']);
+        Route::get('/max-pages/{pages}', [BookController::class, 'getPostByMaxPages']);
+    });
 
     Route::prefix('meta')->group(function () {
-        Route::get('/count', fn () => Book::count());
-        Route::get('/avg-pages', fn () => Book::avg('pages'));
+        Route::get('/count', [BookController::class, 'countPages']);
+        Route::get('/avg-pages', [BookController::class, 'countAvgPages']);
     });
 
     Route::get('/dashboard', fn () => [
