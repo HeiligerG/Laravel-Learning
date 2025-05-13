@@ -10,6 +10,9 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        Tweet::factory()->count(200)->create();
+        User::factory()
+            ->count(20)
+            ->has(Tweet::factory()->count(30))
+            ->create();
     }
 }
