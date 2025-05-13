@@ -8,10 +8,19 @@ use App\Models\Tweet;
 
 class TweetController extends Controller
 {
-    public function index(): JsonResponse
+    public function index()
     {
+        $tweets = Tweet::all();
+
+        $tweets = $tweets->map(function ($tweet) {
+            $tweet->user = [
+                "name" => "Franzi Musterfrau"
+            ];
+            return $tweet;
+        });
+
         return response()->json([
-            'data' => Tweet::all()
+            'data' => $tweets
         ]);
     }
 }
