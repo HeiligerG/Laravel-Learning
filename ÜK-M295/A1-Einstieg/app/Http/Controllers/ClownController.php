@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreClownRequest;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\StoreClownRequest;
 use App\Http\Requests\DeleteClownRequest;
 use App\Http\Requests\UpdateClownRequest;
 use App\Models\Clown;

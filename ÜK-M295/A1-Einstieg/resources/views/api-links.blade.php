@@ -287,6 +287,43 @@
                 justify-content: space-between;
             }
             
+            .api-link-item form {
+                margin-top: 1rem;
+                padding: 1rem;
+                background-color: #1e1e1e;
+                border: 1px solid #333;
+                border-radius: 8px;
+            }
+
+            .api-link-item form input,
+            .api-link-item form textarea,
+            .api-link-item form select {
+                width: 100%;
+                padding: 0.5rem;
+                margin-top: 0.5rem;
+                margin-bottom: 1rem;
+                background-color: #2b2b2b;
+                color: #fff;
+                border: 1px solid #444;
+                border-radius: 4px;
+                font-family: inherit;
+            }
+
+            .api-link-item form button {
+                padding: 0.6rem 1.2rem;
+                background-color: #4caf50;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: bold;
+                transition: background-color 0.2s ease;
+            }
+
+            .api-link-item form button:hover {
+                background-color: #43a047;
+            }
+
             /* Response status colors */
             .status-200 { color: #4caf50; }
             .status-201 { color: #4caf50; }
@@ -1103,8 +1140,8 @@
                     <li class="api-link-item" style="--index: 1;">
                         <div class="api-link-row">
                             <span class="api-method">POST</span>
-                            <span class="api-endpoint">/api/k-rest-y/clown</span>
-                            <a href="{{ url('api/k-rest-y/clown') }}" target="_blank" class="api-try">
+                            <span class="api-endpoint">/api/k-rest-y/clowns</span>
+                            <a href="{{ url('api/k-rest-y/clowns') }}" target="_blank" class="api-try">
                                 Testen
                                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -1119,16 +1156,99 @@
                                 <span class="api-param-description">Name des Clowns</span>
                             </div>
                             <div class="api-param">
-                                <span class="api-param-name">age</span>
-                                <span class="api-param-type">(integer)</span>
-                                <span class="api-param-description">Alter des Clowns</span>
+                                <span class="api-param-name">email</span>
+                                <span class="api-param-type">(string)</span>
+                                <span class="api-param-description">E-Mail-Adresse des Clowns</span>
                             </div>
                             <div class="api-param">
-                                <span class="api-param-name">act</span>
-                                <span class="api-param-type">(string, optional)</span>
-                                <span class="api-param-description">Spezialnummer oder Akt des Clowns</span>
+                                <span class="api-param-name">description</span>
+                                <span class="api-param-type">(string)</span>
+                                <span class="api-param-description">Beschreibung</span>
+                            </div>
+                            <div class="api-param">
+                                <span class="api-param-name">rating</span>
+                                <span class="api-param-type">(integer)</span>
+                                <span class="api-param-description">Bewertung (1–5)</span>
+                            </div>
+                            <div class="api-param">
+                                <span class="api-param-name">status</span>
+                                <span class="api-param-type">(string)</span>
+                                <span class="api-param-description">Status (active, passive, unknown)</span>
                             </div>
                         </div>
+
+                        {{-- Formular: Neuen Clown erstellen --}}
+                        <form action="{{ url('/api/k-rest-y/clowns') }}" method="POST" style="margin-top: 1rem;">
+                            @csrf
+                            <input type="text" name="name" placeholder="Name" required><br>
+                            <input type="email" name="email" placeholder="E-Mail" required><br>
+                            <textarea name="description" placeholder="Beschreibung"></textarea><br>
+                            <input type="number" name="rating" min="1" max="5" placeholder="Bewertung"><br>
+                            <select name="status">
+                                <option value="active">active</option>
+                                <option value="passive">passive</option>
+                                <option value="unknown">unknown</option>
+                            </select><br><br>
+                            <button type="submit">Clown erstellen</button>
+                        </form>
+                    </li>
+
+                                        <li class="api-link-item" style="--index: 1;">
+                        <div class="api-link-row">
+                            <span class="api-method">PATCH</span>
+                            <span class="api-endpoint">/api/k-rest-y/clown/{$id}</span>
+                            <a href="{{ url('api/k-rest-y/clown/1') }}" target="_blank" class="api-try">
+                                Testen
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="api-description">Bearbeitet einen Clown mit den angegebenen Daten.</div>
+                        <div class="api-params">
+                            <div class="api-param">
+                                <span class="api-param-name">name</span>
+                                <span class="api-param-type">(string)</span>
+                                <span class="api-param-description">Name des Clowns</span>
+                            </div>
+                            <div class="api-param">
+                                <span class="api-param-name">email</span>
+                                <span class="api-param-type">(string)</span>
+                                <span class="api-param-description">E-Mail-Adresse des Clowns</span>
+                            </div>
+                            <div class="api-param">
+                                <span class="api-param-name">description</span>
+                                <span class="api-param-type">(string)</span>
+                                <span class="api-param-description">Beschreibung</span>
+                            </div>
+                            <div class="api-param">
+                                <span class="api-param-name">rating</span>
+                                <span class="api-param-type">(integer)</span>
+                                <span class="api-param-description">Bewertung (1–5)</span>
+                            </div>
+                            <div class="api-param">
+                                <span class="api-param-name">status</span>
+                                <span class="api-param-type">(string)</span>
+                                <span class="api-param-description">Status (active, passive, unknown)</span>
+                            </div>
+                        </div>
+
+                        {{-- Formular: Clown bearbeiten --}}
+                        <form action="{{ url('/api/k-rest-y/clowns') }}/1" method="POST" style="margin-top: 1rem;">
+                            @csrf
+                            @method('PATCH')
+                            <input type="text" name="name" placeholder="Neuer Name (optional)"><br>
+                            <input type="email" name="email" placeholder="Neue E-Mail (optional)"><br>
+                            <textarea name="description" placeholder="Neue Beschreibung (optional)"></textarea><br>
+                            <input type="number" name="rating" min="1" max="5" placeholder="Neue Bewertung (optional)"><br>
+                            <select name="status">
+                                <option value="">Status ändern?</option>
+                                <option value="active">active</option>
+                                <option value="passive">passive</option>
+                                <option value="unknown">unknown</option>
+                            </select><br><br>
+                            <button type="submit">Clown aktualisieren (ID = 1)</button>
+                        </form>
                     </li>
 
                 </ul>
