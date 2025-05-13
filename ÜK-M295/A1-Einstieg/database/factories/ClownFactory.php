@@ -17,7 +17,11 @@ class ClownFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->name(),
+            'email' => fake()->email(),
+            'description' => fake()->text(),
+            'rating' => fake()->numberBetween(1, 5),
+            'status' => fake()->randomElement(['active', 'passive', 'unknown']),
         ];
     }
 }

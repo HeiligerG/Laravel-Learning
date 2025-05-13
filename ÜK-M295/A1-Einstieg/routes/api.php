@@ -112,4 +112,11 @@ Route::prefix('ackerer')->group(function () {
     Route::get('/areas', [AreaController::class, 'getAreas']);
 });
 
+# Nächste Aufgabe: k-rest-y
+use App\Http\Controllers\ClownController;
+
+Route::prefix('k-rest-y')->group(function () {
+    Route::get('/clowns', [ClownController::class, 'getClowns']);
+});
+
 

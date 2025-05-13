@@ -1025,6 +1025,40 @@
                     </li>
                 </ul>
             </div>
+
+            <!-- k-rest-y Section -->
+            <div class="api-section">
+                <div class="api-section-header" onclick="toggleSection(this.parentElement)">
+                    <div class="api-section-title">
+                        <svg class="api-section-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 9L12 2L22 9V20C22 20.5304 21.7893 21.0391 21.4142 21.4142C21.0391 21.7893 20.5304 22 20 22H4C3.46957 22 2.96086 21.7893 2.58579 21.4142C2.21071 21.0391 2 20.5304 2 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M18 22V12C18 11.4696 17.7893 10.9609 17.4142 10.5858C17.0391 10.2107 16.5304 10 16 10H8C7.46957 10 6.96086 10.2107 6.58579 10.5858C6.21071 10.9609 6 11.4696 6 12V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        k-rest-y
+                    </div>
+                    <svg class="api-section-toggle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <ul class="api-links">
+
+                    <li class="api-link-item" style="--index: 0;">
+                        <div class="api-link-row">
+                            <span class="api-method">GET</span>
+                            <span class="api-endpoint">/api/k-rest-y/clowns</span>
+                            <a href="{{ url('api/k-rest-y/clowns') }}" target="_blank" class="api-try">
+                                Testen
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="api-description">Gibt eine alle Clowns zurück.</div>
+                        <div class="api-params">
+                        </div>
+                    </li>
+                </ul>
+            </div>
             
             <!-- Tool to Add New Route -->
             <div class="api-section">

@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
             TagSeeder::class,
             PostSeeder::class,
             PlantSeeder::class,
-            AreaSeeder::class
+            AreaSeeder::class,
+            ClownSeeder::class
         ]);
     }
 }
