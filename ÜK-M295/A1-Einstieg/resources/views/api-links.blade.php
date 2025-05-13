@@ -972,6 +972,23 @@
                     </svg>
                 </div>
                 <ul class="api-links">
+
+                    <li class="api-link-item" style="--index: 0;">
+                        <div class="api-link-row">
+                            <span class="api-method">GET</span>
+                            <span class="api-endpoint">/api/ackerer/plants</span>
+                            <a href="{{ url('api/ackerer/plants') }}" target="_blank" class="api-try">
+                                Testen
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="api-description">Gibt eine alle Pflanzen zurück.</div>
+                        <div class="api-params">
+                        </div>
+                    </li>
+
                     <li class="api-link-item" style="--index: 0;">
                         <div class="api-link-row">
                             <span class="api-method">GET</span>

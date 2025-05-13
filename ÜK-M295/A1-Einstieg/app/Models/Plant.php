@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Area;
 
 class Plant extends Model
 {
+    use HasFactory;
+
     protected $table = 'plants';
+
     protected $fillable = [
         'name', 
         'slug',
@@ -16,6 +20,6 @@ class Plant extends Model
     ];
 
     public function Area() {
-        return $this->belongsTo(Area::class);
+        return $this->hasMany(Area::class);
     }
 }

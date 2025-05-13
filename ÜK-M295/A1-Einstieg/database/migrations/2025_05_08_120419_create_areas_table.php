@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('areas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('plant_id')->constrained();
             $table->string('name');
             $table->string('slug');
             $table->string('description');

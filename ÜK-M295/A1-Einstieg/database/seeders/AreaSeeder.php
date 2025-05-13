@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Area;
+use App\Models\Plant;
 
 class AreaSeeder extends Seeder
 {
@@ -13,13 +14,10 @@ class AreaSeeder extends Seeder
      */
     public function run(): void
     {
-        $area = new Area();
-        $area->name = 'Kreis';
-        $area->slug = 'tomate';
-        $area->description = 'Kreisförmige Area';
-        $area->address = 'Kreisstrasse 1';
-        $area->city = 'Berlin';
-        $area->zip = '12345';
-        $area->save();
+        Plant::all()->each(function (Plant $plant) {
+            Area::factory()->count(rand(1, 10))->create([
+                'plant_id' => $plant->id,
+            ]);
+        });
     }
 }

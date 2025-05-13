@@ -13,12 +13,6 @@ class PlantSeeder extends Seeder
      */
     public function run(): void
     {
-        $plant = new Plant();
-        $plant->name = 'Tomate';
-        $plant->slug = 'tomate';
-        $plant->description = 'Tomaten sind Früchte der Tomatenpflanze.';
-        $plant->stock = 10;
-        $plant->area_id = 1;
-        $plant->save();
+        Plant::factory()->count(10)->create();
     }
 }

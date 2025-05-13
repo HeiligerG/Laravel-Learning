@@ -107,6 +107,7 @@ use App\Http\Controllers\PlantController;
 use App\Http\Controllers\AreaController;
 
 Route::prefix('ackerer')->group(function () {
+    Route::get('/plants', [PlantController::class, 'getPlants']);
     Route::get('/plants/{slug}', [PlantController::class, 'getBySlug']);
     Route::get('/areas', [AreaController::class, 'getAreas']);
 });
