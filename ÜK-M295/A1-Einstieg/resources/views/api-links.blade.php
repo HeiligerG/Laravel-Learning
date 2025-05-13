@@ -714,7 +714,7 @@
                         <div class="api-link-row">
                             <span class="api-method">GET</span>
                             <span class="api-endpoint">/api/bookler/search/{search}</span>
-                            <a href="{{ url('api/bookler/search/fantasy') }}" target="_blank" class="api-try">
+                            <a href="{{ url('api/bookler/search/Tipp') }}" target="_blank" class="api-try">
                                 Testen
                                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

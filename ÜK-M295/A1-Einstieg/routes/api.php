@@ -64,23 +64,24 @@ Route::prefix('hallo-velo')->group(function () {
 
 # Nächste Aufgabe: Book'ler
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\PostController;
 
 Route::prefix('bookler')->group(function () {
-    Route::get('/posts', [BookController::class, 'allPosts']);
-    Route::get('/posts/{id}', [BookController::class, 'getByPost']);
-    Route::get('/search/{search}', [BookController::class, 'searchPosts']);
+    Route::get('/posts', [PostController::class, 'allPosts']);
+    Route::get('/posts/{id}', [PostController::class, 'getByPost']);
+    Route::get('/search/{search}', [PostController::class, 'searchByPosts']);
 
     Route::prefix('book-finder')->group(function () {
-        Route::get('/slug/{slug}', [BookController::class, 'getPostBySlug']);
-        Route::get('/title/{title}', [BookController::class, 'getPostByTitle']);
-        Route::get('/author/{author}', [BookController::class, 'getPostByAuthor']);
-        Route::get('/year/{year}', [BookController::class, 'getPostByYear']);
-        Route::get('/max-pages/{pages}', [BookController::class, 'getPostByMaxPages']);
+        Route::get('/slug/{slug}', [PostController::class, 'getPostBySlug']);
+        Route::get('/title/{title}', [PostController::class, 'getPostByTitle']);
+        Route::get('/author/{author}', [PostController::class, 'getPostByAuthor']);
+        Route::get('/year/{year}', [PostController::class, 'getPostByYear']);
+        Route::get('/max-pages/{pages}', [PostController::class, 'getPostByMaxPages']);
     });
 
     Route::prefix('meta')->group(function () {
-        Route::get('/count', [BookController::class, 'countPages']);
-        Route::get('/avg-pages', [BookController::class, 'countAvgPages']);
+        Route::get('/count', [PostController::class, 'countPages']);
+        Route::get('/avg-pages', [PostController::class, 'countAvgPages']);
     });
 
     Route::get('/dashboard', fn () => [
@@ -92,7 +93,6 @@ Route::prefix('bookler')->group(function () {
 });
 
 # Neue Aufgabe: RelationSheep
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\TagController;
 
