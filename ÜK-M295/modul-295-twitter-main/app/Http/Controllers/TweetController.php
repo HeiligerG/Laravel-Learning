@@ -10,12 +10,13 @@ class TweetController extends Controller
 {
     public function index()
     {
-        $tweets = \App\Models\Tweet::latest()
+        $tweets = Tweet::latest()
                         ->take(100)
                         ->get();
 
         $tweets = $tweets->map(function ($tweet) {
             $tweet->user = [
+                "id" => $tweet->user_id,
                 "name" => "Franzi Musterfrau"
             ];
             return $tweet;
