@@ -21,5 +21,18 @@ class StoreClownRequest extends FormRequest
         'status' => 'required'
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+        'name.required' => 'Name ist erforderlich',
+        'email.required' => 'E-Mail ist erforderlich',
+        'email.email' => 'E-Mail ist nicht korrekt',
+        'description.required' => 'Beschreibung ist erforderlich',
+        'rating.required' => 'Rating ist erforderlich',
+        'rating.integer' => 'Rating ist nicht korrekt',
+        'status.required' => 'Status ist erforderlich'
+        ];
+    }
 }
 

@@ -123,4 +123,16 @@ Route::prefix('k-rest-y')->group(function () {
     Route::delete('/clown/{id}', [ClownController::class, 'destroy']);
 });
 
+# Nächste Aufgabe: login
+use App\Http\Controllers\Api\Guardener\LoginController;
+use App\Http\Controllers\Api\Guardener\GeheimController;
+
+Route::prefix('guardener')->group(function () {
+    Route::post('/login', [LoginController::class, 'authenticate']);
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/geheim', [GeheimController::class, 'index']);
+        Route::get('/auth', [LoginController::class, 'checkAuth']);
+        Route::post('/logout', [LoginController::class, 'logout']);
+    });
+});
 
