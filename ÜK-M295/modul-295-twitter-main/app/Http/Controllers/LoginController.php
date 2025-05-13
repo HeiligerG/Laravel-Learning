@@ -13,7 +13,7 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = $request->user(); // oder: Auth::user()
-            $token = $user->createToken('auth_token')->plainTextToken;
+            $token = $user->createToken('auth_token')->plainTextToken; // PlainTextToken ist ein Property, das die Token-String zurückgibt
 
             return response()->json([
                 'token' => $token
