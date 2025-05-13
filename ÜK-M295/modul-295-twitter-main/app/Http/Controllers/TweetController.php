@@ -10,7 +10,9 @@ class TweetController extends Controller
 {
     public function index()
     {
-        $tweets = Tweet::all();
+        $tweets = \App\Models\Tweet::latest()
+                        ->take(100)
+                        ->get();
 
         $tweets = $tweets->map(function ($tweet) {
             $tweet->user = [
