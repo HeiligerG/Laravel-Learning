@@ -1057,6 +1057,80 @@
                         <div class="api-params">
                         </div>
                     </li>
+
+                    <li class="api-link-item" style="--index: 0;">
+                        <div class="api-link-row">
+                            <span class="api-method">GET</span>
+                            <span class="api-endpoint">/api/k-rest-y/clown/{$id}</span>
+                            <a href="{{ url('api/k-rest-y/clown/1') }}" target="_blank" class="api-try">
+                                Testen
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="api-description">Gibt ein Clown nach der ID zurück.</div>
+                        <div class="api-params">
+                            <div class="api-param">
+                                <span class="api-param-name">id</span>
+                                <span class="api-param-type">(integer)</span>
+                                <span class="api-param-description">Id des Clowns</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="api-link-item" style="--index: 0;">
+                        <div class="api-link-row">
+                            <span class="api-method">DELETE</span>
+                            <span class="api-endpoint">/api/k-rest-y/clown/{$id}</span>
+                            <a href="{{ url('api/k-rest-y/clown/1') }}" target="_blank" class="api-try">
+                                Testen
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="api-description">Löscht ein Clown nach der ID.</div>
+                        <div class="api-params">
+                            <div class="api-param">
+                                <span class="api-param-name">id</span>
+                                <span class="api-param-type">(integer)</span>
+                                <span class="api-param-description">Id des Clowns</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="api-link-item" style="--index: 1;">
+                        <div class="api-link-row">
+                            <span class="api-method">POST</span>
+                            <span class="api-endpoint">/api/k-rest-y/clown</span>
+                            <a href="{{ url('api/k-rest-y/clown') }}" target="_blank" class="api-try">
+                                Testen
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="api-description">Erstellt einen neuen Clown mit den angegebenen Daten.</div>
+                        <div class="api-params">
+                            <div class="api-param">
+                                <span class="api-param-name">name</span>
+                                <span class="api-param-type">(string)</span>
+                                <span class="api-param-description">Name des Clowns</span>
+                            </div>
+                            <div class="api-param">
+                                <span class="api-param-name">age</span>
+                                <span class="api-param-type">(integer)</span>
+                                <span class="api-param-description">Alter des Clowns</span>
+                            </div>
+                            <div class="api-param">
+                                <span class="api-param-name">act</span>
+                                <span class="api-param-type">(string, optional)</span>
+                                <span class="api-param-description">Spezialnummer oder Akt des Clowns</span>
+                            </div>
+                        </div>
+                    </li>
+
                 </ul>
             </div>
             

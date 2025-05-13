@@ -116,7 +116,11 @@ Route::prefix('ackerer')->group(function () {
 use App\Http\Controllers\ClownController;
 
 Route::prefix('k-rest-y')->group(function () {
-    Route::get('/clowns', [ClownController::class, 'getClowns']);
+    Route::get('/clowns', [ClownController::class, 'index']);
+    Route::get('/clown/{id}', [ClownController::class, 'show']);
+    Route::post('/clown', [ClownController::class, 'store']);
+    Route::patch('/clowns/{id}', [ClownController::class, 'update']);
+    Route::delete('/clown/{id}', [ClownController::class, 'destroy']);
 });
 
 
