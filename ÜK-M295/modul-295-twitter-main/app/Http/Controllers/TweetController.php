@@ -33,6 +33,12 @@ class TweetController extends Controller
 
     public function like(Tweet $tweet)
     {
+        if ($tweet->user_id == auth()->id()) {
+            return response()->json([
+                'message' => 'Du kannst nicht deine eigenen Tweets liken!',
+            ], 400);
+        }
+
         $tweet->likes += 1;
         $tweet->save();
 
