@@ -11,11 +11,11 @@ use App\Models\Tweet;
 
 class TweetController extends Controller
 {
-    public function index(User $user)
+    public function index()
     {
         $tweets = Tweet::with('user')
-            ->orderBy('created_at', 'desc')
-            ->limit(100)
+            ->latest()
+            ->take(100)
             ->get();
 
         return TweetResource::collection($tweets);
