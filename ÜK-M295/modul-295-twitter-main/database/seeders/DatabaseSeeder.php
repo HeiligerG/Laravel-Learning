@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     {
         User::factory()
             ->count(20)
-            ->has(Tweet::factory()->count(30))
+            ->has(Tweet::factory()->count(rand(0, 50)))
             ->create();
 
         User::first()->update([
