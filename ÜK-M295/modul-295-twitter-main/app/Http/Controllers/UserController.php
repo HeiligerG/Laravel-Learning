@@ -13,8 +13,8 @@ class UserController extends Controller
 {
     public function show($id)
     {
-        $tweet = Tweet::with('user')->findOrFail($id);
-        return new TweetResource($tweet);
+        $user = User::findOrFail($id);
+        return new UserResource($user);
     }
 
     public function tweets($id)

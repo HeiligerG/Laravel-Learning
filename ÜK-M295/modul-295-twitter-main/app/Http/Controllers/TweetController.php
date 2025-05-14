@@ -14,9 +14,9 @@ class TweetController extends Controller
     public function index()
     {
         $tweets = Tweet::with('user')
-                    ->latest()
-                    ->take(100)
-                    ->get();
+            ->orderBy('created_at', 'desc')
+            ->limit(100)
+            ->get();
 
         return TweetResource::collection($tweets);
     }

@@ -17,7 +17,7 @@ Route::get('/me', [UserController::class, 'me'])->middleware('auth:sanctum');
 Route::put('/me', [UserController::class, 'updateMe'])->middleware('auth:sanctum');
 Route::delete('/me', [UserController::class, 'deleteMe'])->middleware('auth:sanctum');
 
-Route::get('/tweets', [TweetController::class, 'tweets']);
+Route::get('/tweets', [TweetController::class, 'index']);
 Route::post('/tweets', [TweetController::class, 'store'])->middleware('auth:sanctum');
 
 Route::post('/login', [LoginController::class, 'login']);
