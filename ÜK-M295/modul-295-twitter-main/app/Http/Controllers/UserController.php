@@ -55,4 +55,13 @@ class UserController extends Controller
             'user' => new UserResource($user),
         ], 422);
     }
+
+    public function deleteMe() {
+        $user = auth()->user();
+        $user->delete();
+        
+        return response()->json([
+            'message' => 'Profil erfolgreich gelöscht.',
+        ], 200);
+    }
 }
