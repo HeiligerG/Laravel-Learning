@@ -14,6 +14,7 @@ Route::get('/user', function (Request $request) {
 Route::get('/users/{id}', [UserController::class, 'show']);
 Route::get('/users/{id}/tweets', [UserController::class, 'tweets']);
 Route::get('/me', [UserController::class, 'me'])->middleware('auth:sanctum');
+Route::put('/me', [UserController::class, 'updateMe'])->middleware('auth:sanctum');
 
 Route::get('/tweets', [TweetController::class, 'tweets']);
 Route::post('/tweets', [TweetController::class, 'store'])->middleware('auth:sanctum');
