@@ -11,9 +11,8 @@ use App\Models\Tweet;
 
 class UserController extends Controller
 {
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::findOrFail($id);
         return new UserResource($user);
     }
 

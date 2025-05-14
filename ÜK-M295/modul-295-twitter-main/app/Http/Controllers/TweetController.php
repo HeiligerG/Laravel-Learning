@@ -11,7 +11,7 @@ use App\Models\Tweet;
 
 class TweetController extends Controller
 {
-    public function index()
+    public function index(User $user)
     {
         $tweets = Tweet::with('user')
             ->orderBy('created_at', 'desc')
@@ -31,13 +31,8 @@ class TweetController extends Controller
         return new TweetResource($tweet);
     }
 
-    public function like($id) {
-        $tweet = Tweet::find($id);
-
-        if (!$tweet) {
-            return response()->json(['message' => 'Tweet not found'], 404);
-        }
-
+    public function like(Tweet $tweet)
+    {
         $tweet->likes += 1;
         $tweet->save();
 
