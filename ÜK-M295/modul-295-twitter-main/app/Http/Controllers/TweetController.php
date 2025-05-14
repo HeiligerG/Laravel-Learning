@@ -20,4 +20,18 @@ class TweetController extends Controller
 
         return TweetResource::collection($tweets);
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'text' => 'required|string|min:5|max:160',
+        ]);
+
+        $tweet = Tweet::create([
+            'text' => $request->input('text'),
+            'user_id' => $request->user()->id,
+        ]);
+
+        return new TweetResource($tweet);
+    }
 }
