@@ -30,6 +30,14 @@ class LoginController extends Controller
         ], 422);
     }
 
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        return response()->json([
+            'message' => 'Logout erfolgreich.'
+        ], 200);
+    }
+
     public function checkAuth(Request $request)
     {
         return UserResource::make($request->user());
