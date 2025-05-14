@@ -23,3 +23,6 @@ Route::post('/tweets', [TweetController::class, 'store'])->middleware('auth:sanc
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/auth', [LoginController::class, 'checkAuth'])->middleware('auth:sanctum');
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
+
+Route::post('/tweets/{id}/like', [TweetController::class, 'like'])->middleware('auth:sanctum');
+# Route::post('/tweets/{tweet}/unlike', [TweetController::class, 'unlike'])->middleware('auth:sanctum');

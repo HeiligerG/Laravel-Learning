@@ -30,4 +30,17 @@ class TweetController extends Controller
 
         return new TweetResource($tweet);
     }
+
+    public function like($id) {
+        $tweet = Tweet::find($id);
+
+        if (!$tweet) {
+            return response()->json(['message' => 'Tweet not found'], 404);
+        }
+
+        $tweet->likes += 1;
+        $tweet->save();
+
+        return new TweetResource($tweet);
+    }
 }
